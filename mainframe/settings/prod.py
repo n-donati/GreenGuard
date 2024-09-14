@@ -40,4 +40,3 @@ if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
 GS_BUCKET_NAME = env("GS_BUCKET_NAME")
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-DEFAULT_FILE_STORAGE = 'mainframe.cloudstorage.CustomGoogleCloudStorage'
