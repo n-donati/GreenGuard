@@ -11,4 +11,6 @@ urlpatterns = [
     path('monitoring/', page_views.monitoring, name='monitoring'),
     path('signup/', page_views.signup, name='signup'),
     path('logout/', page_views.logout, name='logout'),
+    path('greenhouse/<int:greenhouse_id>/edit-name/', page_views.edit_greenhouse_name, name='edit_greenhouse_name'),
+    path('greenhouse/<int:greenhouse_id>/delete/', page_views.delete_greenhouse, name='delete_greenhouse'),
 ]

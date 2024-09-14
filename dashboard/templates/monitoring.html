@@ -1,0 +1,296 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Monitoring - GreenGuard</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Monitoring - GreenGuard">
+    <meta name="author" content="GreenGuard">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+
+    <!-- FontAwesome JS-->
+    <script defer src="{% static 'assets/plugins/fontawesome/js/all.min.js' %}"></script>
+
+    <!-- App CSS -->
+    <link id="theme-style" rel="stylesheet" href="{% static 'assets/css/portal.css' %}">
+
+    <style>
+        .arrow-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .arrow-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .greenhouse-redraw {
+            width: 200px;
+            height: 200px;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+
+<body class="app cool-background">
+    <header class="app-header fixed-top">
+        <div class="app-header-inner">
+            <div class="container-fluid py-2">
+                <div class="app-header-content">
+                    <div class="row justify-content-between align-items-center">
+
+                        <div class="col-auto">
+                            <a id="sidepanel-toggler" class="sidepanel-toggler d-inline-block d-xl-none" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"
+                                    role="img">
+                                    <title>Menu</title>
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
+                                        stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path>
+                                </svg>
+                            </a>
+                        </div><!--//col-->
+                        <div class="app-search-box col">
+                            <form class="app-search-form">
+                                <input type="text" placeholder="Search..." name="search"
+                                    class="form-control search-input">
+                                <button type="submit" class="btn search-btn btn-primary" value="Search"><i
+                                        class="fas fa-search"></i></button>
+                            </form>
+                        </div><!--//app-search-box-->
+
+                        <div class="app-utilities col-auto">
+                            <div class="app-utility-item app-user-dropdown dropdown">
+                                <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                                    role="button" aria-expanded="false"><img src="{% static 'assets/images/user.png' %}"
+                                        alt="user profile"></a>
+                                <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
+                                    <li><a class="dropdown-item" href="">Settings</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
+                                </ul>
+                            </div><!--//app-user-dropdown-->
+                        </div><!--//app-utilities-->
+                    </div><!--//row-->
+                </div><!--//app-header-content-->
+            </div><!--//container-fluid-->
+        </div><!--//app-header-inner-->
+        <div id="app-sidepanel" class="app-sidepanel">
+            <div id="sidepanel-drop" class="sidepanel-drop"></div>
+            <div class="sidepanel-inner d-flex flex-column">
+                <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
+                <div class="app-branding">
+                    <a class="app-logo" href="{% url 'home' %}"><img class="logo-icon me-2"
+                            src="{% static 'assets/images/app-logo.svg' %}" alt="logo"><span
+                            class="logo-text">GREENGUARD</span></a>
+
+                </div><!--//app-branding-->
+
+                <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
+                    <ul class="app-menu list-unstyled accordion" id="menu-accordion">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard' %}">
+                                <span class="nav-icon">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-house-door"
+                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.646 1.146a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5H9.5a.5.5 0 0 1-.5-.5v-4H7v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6zM2.5 7.707V14H6v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4h3.5V7.707L8 2.207l-5.5 5.5z" />
+                                        <path fill-rule="evenodd"
+                                            d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+                                    </svg>
+                                </span>
+                                <span class="nav-link-text">Overview</span>
+                            </a><!--//nav-link-->
+                        </li><!--//nav-item-->
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'monitoring' %}">
+                                <span class="nav-icon">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list"
+                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
+                                        <path fill-rule="evenodd"
+                                            d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z" />
+                                        <circle cx="3.5" cy="5.5" r=".5" />
+                                        <circle cx="3.5" cy="8" r=".5" />
+                                        <circle cx="3.5" cy="10.5" r=".5" />
+                                    </svg>
+                                </span>
+                                <span class="nav-link-text">Monitoring</span>
+                            </a><!--//nav-link-->
+                        </li><!--//nav-item-->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'greenhouses' %}">
+                                <span class="nav-icon">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bar-chart-line"
+                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                                    </svg>
+                                </span>
+                                <span class="nav-link-text">Greenhouses</span>
+                            </a><!--//nav-link-->
+                        </li><!--//nav-item-->
+                    </ul><!--//app-menu-->
+                </nav><!--//app-nav-->
+            </div><!--//sidepanel-inner-->
+        </div><!--//app-sidepanel-->
+    </header><!--//app-header-->
+
+    <div class="app-wrapper">
+        <div class="app-content pt-3 p-md-3 p-lg-4">
+            <div class="container-xl">
+                <h1 class="app-page-title">Monitoring</h1>
+
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="app-card-body">
+                        <div class="table-responsive">
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                    <tr>
+                                        <th class="cell">Greenhouse</th>
+                                        <th class="cell">Temperature</th>
+                                        <th class="cell">Humidity</th>
+                                        <th class="cell">Light</th>
+                                        <th class="cell">Soil Moisture</th>
+                                        <th class="cell"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="greenhouse-rows">
+                                    <!-- Greenhouse rows will be dynamically inserted here -->
+                                </tbody>
+                            </table>
+                        </div><!--//table-responsive-->
+                    </div><!--//app-card-body-->
+                </div><!--//app-card-->
+
+            </div><!--//container-fluid-->
+        </div><!--//app-content-->
+
+        <footer class="app-footer">
+            <div class="container text-center py-3">
+                <small class="copyright">Crafted with passion for growers by <a class="app-link" href="{% url 'home' %}"
+                        target="_blank">GreenGuard</a><span class="sr-only"></span> <i class="fas fa-leaf"
+                        style="color: #327230;"></i></small>
+            </div>
+        </footer><!--//app-footer-->
+
+    </div><!--//app-wrapper-->
+
+    <!-- Javascript -->
+    <script src="{% static 'assets/plugins/popper.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- Page Specific JS -->
+    <script src="{% static 'assets/js/app.js' %}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const greenhouseData = {{ greenhouses|safe }};
+            const greenhouseRows = document.getElementById('greenhouse-rows');
+
+            greenhouseData.forEach((greenhouse) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="cell">${greenhouse.name}</td>
+                    <td class="cell">25°C</td>
+                    <td class="cell">60%</td>
+                    <td class="cell">5000 lux</td>
+                    <td class="cell">70%</td>
+                    <td class="cell">
+                        <button class="btn-sm app-btn-secondary toggle-redraw" data-greenhouse-id="${greenhouse.id}">
+                            <i class="fas fa-chevron-up arrow-icon"></i>
+                        </button>
+                    </td>
+                `;
+                greenhouseRows.appendChild(row);
+
+                const redrawRow = document.createElement('tr');
+                redrawRow.className = 'redraw-row';
+                redrawRow.style.display = 'none';
+                redrawRow.innerHTML = `
+                    <td colspan="6">
+                        <div class="greenhouse-redraw" id="redraw-${greenhouse.id}"></div>
+                    </td>
+                `;
+                greenhouseRows.appendChild(redrawRow);
+            });
+
+            document.querySelectorAll('.toggle-redraw').forEach(button => {
+                button.addEventListener('click', function () {
+                    const greenhouseId = this.getAttribute('data-greenhouse-id');
+                    const redrawRow = this.closest('tr').nextElementSibling;
+                    const icon = this.querySelector('.arrow-icon');
+
+                    if (redrawRow.style.display === 'none') {
+                        redrawRow.style.display = 'table-row';
+                        icon.classList.add('rotated');
+                        redrawGreenhouse(greenhouseId);
+                    } else {
+                        redrawRow.style.display = 'none';
+                        icon.classList.remove('rotated');
+                    }
+                });
+            });
+
+            function redrawGreenhouse(greenhouseId) {
+                const redrawContainer = document.getElementById(`redraw-${greenhouseId}`);
+                const canvas = document.createElement('canvas');
+                canvas.width = 200;
+                canvas.height = 200;
+                const ctx = canvas.getContext('2d');
+
+                const gridSize = 16;
+                const cellSize = canvas.width / gridSize;
+
+                // Draw grid
+                ctx.strokeStyle = 'rgba(200, 200, 200, 0.5)';
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= gridSize; i++) {
+                    const pos = i * cellSize;
+                    ctx.beginPath();
+                    ctx.moveTo(pos, 0);
+                    ctx.lineTo(pos, canvas.height);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(0, pos);
+                    ctx.lineTo(canvas.width, pos);
+                    ctx.stroke();
+                }
+
+                // Draw selections
+                ctx.fillStyle = 'rgba(40, 167, 69, 0.2)';
+                ctx.strokeStyle = '#28a745';
+                ctx.lineWidth = 2;
+
+                greenhouseData[greenhouseId].forEach((selection, index) => {
+                    const left = Math.min(selection.start.x, selection.end.x) * cellSize;
+                    const top = Math.min(selection.start.y, selection.end.y) * cellSize;
+                    const width = (Math.abs(selection.end.x - selection.start.x) + 1) * cellSize;
+                    const height = (Math.abs(selection.end.y - selection.start.y) + 1) * cellSize;
+
+                    ctx.fillRect(left, top, width, height);
+                    ctx.strokeRect(left, top, width, height);
+
+                    // Add area name
+                    ctx.fillStyle = '#28a745';
+                    ctx.font = '10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(`Area ${index + 1}`, left + width / 2, top + height / 2);
+                });
+
+                redrawContainer.innerHTML = '';
+                redrawContainer.appendChild(canvas);
+            }
+        });
+    </script>
+</body>
+
+</html>
