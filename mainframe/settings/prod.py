@@ -6,6 +6,8 @@ import environ
 from django.core.exceptions import ImproperlyConfigured
 # Import the original settings from each template
 from .basesettings import *
+import json
+from google.oauth2 import service_account
 
 # Load the settings from the environment variable
 env = environ.Env()
@@ -39,4 +41,8 @@ if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
   DATABASES["default"]["PORT"] = 5432
 GS_BUCKET_NAME = env("GS_BUCKET_NAME")
 STATICFILES_DIRS = [BASE_DIR / 'static']
+secret_json = env("SERVICE_ACCOUNT_CREDENTIALS")
+creds_dict = json.loads(secret_json)
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(creds_dict)
 STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+DEFAULT_FILE_STORAGE = 'mainframe.cloudstorage.CustomGoogleCloudStorage'
