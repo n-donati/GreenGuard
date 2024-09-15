@@ -88,6 +88,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST, require_http_methods
 from .models import Greenhouse
 import json
+from dashboard.frida import recommendation1
 
 # Create your views here.
 def dashboard(request):
@@ -98,7 +99,15 @@ def dashboard(request):
     else:
         return redirect('login')
     
+    # extraer del database cantidad de invernaderos, salud general y ultima actualizacion
+    # recommendation = recommendation1(10, 90, "2022-01-01")
     return render(request, "dashboard.html", {'user': user})
+
+def get_recommendation(request):
+    # This view will be called asynchronously
+    # Extract necessary data from the database
+    recommendation = recommendation1(10, 90, "2022-01-01")
+    return JsonResponse({'recommendation': recommendation})
 
 @login_required
 def greenhouses(request):

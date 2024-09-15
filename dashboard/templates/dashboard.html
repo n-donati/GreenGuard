@@ -327,7 +327,9 @@
 									</div><!--//row-->
 								</div><!--//app-card-header-->
 								<div class="app-card-body px-4">
-									<div class="intro">Aquí puedes ver un resumen rápido del estado de tus invernaderos.
+									<div class="intro">
+										<div id="recommendation-placeholder">Frida IA está pensando...</div>
+									{% comment %} {{ recommendation }} {% endcomment %}
 									</div>
 								</div><!--//app-card-body-->
 								<div class="app-card-footer p-4 mt-auto">
@@ -472,6 +474,19 @@
 							cell.style.zIndex = '0';
 						});
 					});
+				});
+			</script>
+			<script>
+				document.addEventListener('DOMContentLoaded', function() {
+					fetch('get-recommendation/')  // Make sure this URL matches your urls.py
+						.then(response => response.json())
+						.then(data => {
+							document.getElementById('recommendation-placeholder').textContent = data.recommendation;
+						})
+						.catch(error => {
+							console.error('Error fetching recommendation:', error);
+							document.getElementById('recommendation-placeholder').textContent = 'No se pudo cargar la recomendación.';
+						});
 				});
 			</script>
 
