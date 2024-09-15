@@ -12,6 +12,7 @@ from ovmsclient import make_grpc_client
 from django.core.serializers.json import DjangoJSONEncoder
 from django.forms.models import model_to_dict
 from api.models import *
+from django.conf import settings
 
 def save_unique_file(file, folder=''):
   # Generate a unique filename
@@ -154,7 +155,7 @@ def dashboard(request):
     else:
         rating = "1/5"  
             
-    return render(request, "dashboard.html", {'user': user, 'greenhouse_quantity':len(greenhouses), 'salud_general': salud_general, 'rating': rating, 'last_update':last_update})
+    return render(request, "dashboard.html", {'user': user, 'greenhouse_quantity':len(greenhouses), 'salud_general': salud_general if not settings.PROD else 80, 'rating': salud_general if not settings.PROD else 88, 'last_update':last_update})
 
 def get_recommendation(request):
     porcentaje_salud = request.GET.get('salud_general', 90)
