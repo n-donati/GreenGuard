@@ -25,7 +25,7 @@ if CLOUDRUN_SERVICE_URL:
       urlparse(CLOUDRUN_SERVICE_URL).netloc,
       'greenguard.com.mx',
   ]
-  CSRF_TRUSTED_ORIGINS = [CLOUDRUN_SERVICE_URL, ]
+  CSRF_TRUSTED_ORIGINS = [CLOUDRUN_SERVICE_URL, 'greenguard.com.mx']
 else:
   ALLOWED_HOSTS = ["*"]
 
