@@ -6,5 +6,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
   path('<int:greenhouse_id>/delete/', views.delete, name="delete"), 
-  path('<int:greenhouse_id>/edit/', views.edit, name="edit")
+  path('<int:greenhouse_id>/edit/', views.edit, name="edit"), 
+  path('upload_image/', views.upload_images, name="upload_images")
 ]

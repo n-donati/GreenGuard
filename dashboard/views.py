@@ -9,6 +9,9 @@ from django.core.files.storage import default_storage
 import numpy as np
 from PIL import Image as PILImage
 from ovmsclient import make_grpc_client
+from django.core.serializers.json import DjangoJSONEncoder
+from django.forms.models import model_to_dict
+
 def save_unique_file(file, folder=''):
   # Generate a unique filename
   original_name = get_valid_filename(file.name)
@@ -144,16 +147,17 @@ def delete_greenhouse(request, greenhouse_id):
     greenhouse.delete()
     return JsonResponse({"success": True})
 
+def greenhouse_to_dict(gh):
+    gh_dict = model_to_dict(gh, fields=['id', 'name', 'crop_type'])
+    gh_dict['data'] = gh.data  # Assuming 'data' is a JSONField or similar
+    gh_dict['green'] = gh.images.exists()  # Efficiently check if images exist
+    return gh_dict
+
 @login_required
 def monitoring(request):
     greenhouses = Greenhouse.objects.filter(user=request.user).order_by('-created_at')
     context = {
-        'greenhouses': json.dumps([{
-            'id': gh.id,
-            'name': gh.name,
-            'crop_type': gh.crop_type,
-            'data': gh.data
-        } for gh in greenhouses])
+        'greenhouses': json.dumps([greenhouse_to_dict(gh) for gh in greenhouses], cls=DjangoJSONEncoder)
     }
     return render(request, "monitoring.html", context)
 

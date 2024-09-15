@@ -284,189 +284,252 @@
     </style>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const greenhouseData = JSON.parse('{{ greenhouses|safe }}');
-            const greenhouseRows = document.getElementById('greenhouse-rows');
-
-            function getHealthColor(health) {
-                if (health >= 80) return ['#28a745', '#d4edda'];
-                if (health >= 60) return ['#ffc107', '#fff3cd'];
-                if (health >= 40) return ['#fd7e14', '#fff3cd'];
-                if (health >= 20) return ['#dc3545', '#f8d7da'];
-                return ['#6c757d', '#e9ecef'];
-            }
-
-            function formatDate(dateString) {
-                const date = new Date(dateString);
-                return date.toLocaleString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-            }
-
-            greenhouseData.forEach((greenhouse) => {
-                const health = Math.floor(Math.random() * 101);
-                const [borderColor, backgroundColor] = getHealthColor(health);
-                const updatedDate = new Date().toISOString();
-
-                const row = document.createElement('tr');
-                row.className = 'greenhouse-row';
-                row.innerHTML = `
-            <td class="cell">${greenhouse.name}</td>
-            <td class="cell">${greenhouse.crop_type}</td>
-            <td class="cell">
-                <div class="health-indicator" style="border: 2px solid ${borderColor}; background-color: ${backgroundColor}; color: ${borderColor};">
-                    ${health}%
-                </div>
-            </td>
-            <td class="cell">${health}%</td>
-            <td class="cell">${formatDate(updatedDate)}</td>
-            <td class="cell">
-                <button class="btn-sm toggle-redraw" data-greenhouse-id="${greenhouse.id}">
-                    <i class="fas fa-chevron-down arrow-icon"></i>
-                </button>
-            </td>
-        `;
-                greenhouseRows.appendChild(row);
-
-                const redrawRow = document.createElement('tr');
-                redrawRow.className = 'redraw-row';
-                redrawRow.style.display = 'none';
-                redrawRow.innerHTML = `
-            <td colspan="5">
-                <div class="greenhouse-redraw-container">
-                    <div class="greenhouse-redraw" id="redraw-${greenhouse.id}"></div>
-                    <div class="greenhouse-info">
-                        <h6>Instructions:</h6>
-                        <p>Click on an area to simulate uploading a picture.</p>
-                        <p><small class="text-muted">Gray: No pictures | Green: Pictures uploaded</small></p>
+      document.addEventListener('DOMContentLoaded', function () {
+        const greenhouseData = JSON.parse('{{ greenhouses|safe }}');
+        const greenhouseRows = document.getElementById('greenhouse-rows');
+    
+        function getHealthColor(health) {
+            if (health >= 80) return ['#28a745', '#d4edda'];
+            if (health >= 60) return ['#ffc107', '#fff3cd'];
+            if (health >= 40) return ['#fd7e14', '#fff3cd'];
+            if (health >= 20) return ['#dc3545', '#f8d7da'];
+            return ['#6c757d', '#e9ecef'];
+        }
+    
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+    
+        greenhouseData.forEach((greenhouse) => {
+            const health = Math.floor(Math.random() * 101);
+            const [borderColor, backgroundColor] = getHealthColor(health);
+            const updatedDate = new Date().toISOString();
+    
+            const row = document.createElement('tr');
+            row.className = 'greenhouse-row';
+            row.innerHTML = `
+                <td class="cell">${greenhouse.name}</td>
+                <td class="cell">${greenhouse.crop_type}</td>
+                <td class="cell">
+                    <div class="health-indicator" style="border: 2px solid ${borderColor}; background-color: ${backgroundColor}; color: ${borderColor};">
+                        ${health}%
                     </div>
-                </div>
-                
-            </td>
-        `;
-                greenhouseRows.appendChild(redrawRow);
-            });
-
-            document.querySelectorAll('.toggle-redraw').forEach(button => {
-                button.addEventListener('click', function () {
-                    const greenhouseId = this.getAttribute('data-greenhouse-id');
-                    const redrawRow = this.closest('tr').nextElementSibling;
-                    const icon = this.querySelector('.arrow-icon');
-
-                    if (redrawRow.style.display === 'none') {
-                        redrawRow.style.display = 'table-row';
-                        icon.classList.remove('fa-chevron-down');
-                        icon.classList.add('fa-chevron-up');
-                        redrawGreenhouse(greenhouseId);
-                    } else {
-                        redrawRow.style.display = 'none';
-                        icon.classList.remove('fa-chevron-up');
-                        icon.classList.add('fa-chevron-down');
-                        this.closest('tr').classList.remove('selected');
-                    }
-                });
-            });
-
-            function redrawGreenhouse(greenhouseId) {
-                const greenhouse = greenhouseData.find(gh => gh.id.toString() === greenhouseId);
-                if (!greenhouse) return;
-
-                document.querySelectorAll('.greenhouse-row').forEach(row => {
-                    row.classList.remove('selected');
-                });
-
-                const currentRow = document.querySelector(`[data-greenhouse-id="${greenhouseId}"]`).closest('tr');
-                currentRow.classList.add('selected');
-
-                const redrawContainer = document.getElementById(`redraw-${greenhouseId}`);
-                const canvas = document.createElement('canvas');
-                const containerWidth = redrawContainer.offsetWidth;
-                const canvasSize = Math.min(containerWidth, 240); // Limit to 240px max
-                canvas.width = canvasSize;
-                canvas.height = canvasSize;
-                const ctx = canvas.getContext('2d');
-
-                const gridSize = 16;
-                const cellSize = canvasSize / gridSize;
-
-                // Draw grid
-                ctx.strokeStyle = 'rgba(200, 200, 200, 0.5)';
-                ctx.lineWidth = 1;
-                for (let i = 0; i <= gridSize; i++) {
-                    const pos = i * cellSize;
-                    ctx.beginPath();
-                    ctx.moveTo(pos, 0);
-                    ctx.lineTo(pos, canvas.height);
-                    ctx.stroke();
-                    ctx.beginPath();
-                    ctx.moveTo(0, pos);
-                    ctx.lineTo(canvas.width, pos);
-                    ctx.stroke();
+                </td>
+                <td class="cell">${health}%</td>
+                <td class="cell">${formatDate(updatedDate)}</td>
+                <td class="cell">
+                    <button class="btn-sm toggle-redraw" data-greenhouse-id="${greenhouse.id}" data-green="${greenhouse.green}">
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </button>
+                </td>
+            `;
+            greenhouseRows.appendChild(row);
+    
+            const redrawRow = document.createElement('tr');
+            redrawRow.className = 'redraw-row';
+            redrawRow.style.display = 'none';
+            redrawRow.innerHTML = `
+                <td colspan="5">
+                    <div class="greenhouse-redraw-container">
+                        <div class="greenhouse-redraw" id="redraw-${greenhouse.id}"></div>
+                        <div class="greenhouse-info">
+                            <h6>Instructions:</h6>
+                            <p>Click on an area to simulate uploading a picture.</p>
+                            <p><small class="text-muted">Gray: No pictures | Green: Pictures uploaded</small></p>
+                        </div>
+                    </div>
+                </td>
+            `;
+            greenhouseRows.appendChild(redrawRow);
+    
+            // If the greenhouse is green, automatically expand and redraw it
+            
+        });
+    
+        document.querySelectorAll('.toggle-redraw').forEach(button => {
+            button.addEventListener('click', function () {
+                const greenhouseId = this.getAttribute('data-greenhouse-id');
+                const green = this.getAttribute('data-green');
+                const redrawRow = this.closest('tr').nextElementSibling;
+                const icon = this.querySelector('.arrow-icon');
+                if (green) {
+                  console.log('this greenhouse is green');
+                  setTimeout(() => {
+                    redrawGreenhouse(greenhouseId);
+                    
+                }, 0);
                 }
+                else {
+                if (redrawRow.style.display === 'none') {
+                    redrawRow.style.display = 'table-row';
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                    redrawGreenhouse(greenhouseId);
+                } else {
+                    redrawRow.style.display = 'none';
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                    this.closest('tr').classList.remove('selected');
+                }
+              }
+            });
+        });
 
-                // Draw selections
-                greenhouse.data.forEach((selection, index) => {
-                    const left = Math.min(selection.start.x, selection.end.x) * cellSize;
-                    const top = Math.min(selection.start.y, selection.end.y) * cellSize;
-                    const width = (Math.abs(selection.end.x - selection.start.x) + 1) * cellSize;
-                    const height = (Math.abs(selection.end.y - selection.start.y) + 1) * cellSize;
-
-                    ctx.fillStyle = selection.hasImage ? 'rgba(40, 167, 69, 0.2)' : 'rgba(200, 200, 200, 0.2)';
-                    ctx.fillRect(left, top, width, height);
-                    ctx.strokeStyle = selection.hasImage ? '#28a745' : '#000000';
-                    ctx.strokeRect(left, top, width, height);
-
-                    ctx.fillStyle = '#000000';
-                    ctx.font = '12px Arial';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText(`Area ${index + 1}`, left + width / 2, top + height / 2);
-                });
-
-                redrawContainer.innerHTML = '';
-                redrawContainer.appendChild(canvas);
-
-                canvas.addEventListener('click', (event) => {
-                    const rect = canvas.getBoundingClientRect();
-                    const x = event.clientX - rect.left;
-                    const y = event.clientY - rect.top;
-                    const gridX = Math.floor(x / cellSize);
-                    const gridY = Math.floor(y / cellSize);
-
-                    greenhouse.data.forEach((selection, index) => {
-                        if (gridX >= selection.start.x && gridX <= selection.end.x &&
-                            gridY >= selection.start.y && gridY <= selection.end.y) {
-
-                            // Create a file input element
-                            const fileInput = document.createElement('input');
-                            fileInput.type = 'file';
-                            fileInput.accept = 'image/*';
-                            fileInput.multiple = true;
-
-                            fileInput.addEventListener('change', function (e) {
-                                const files = e.target.files;
-                                if (files.length > 0) {
-                                    // Simulate a successful upload
-                                    console.log(`${files.length} file(s) selected for Area ${index + 1}`);
-
-                                    // Update the selection to indicate it has an image
-                                    selection.hasImage = true;
-
-                                    // Redraw the greenhouse to reflect the change
-                                    redrawGreenhouse(greenhouseId);
-                                }
-                            });
-
-                            fileInput.click();
-
-                        }
-                    });
-                });
-            };
+        function redrawGreenhouse(greenhouseId) {
+          console.log(`Attempting to redraw greenhouse ${greenhouseId}`);
+          
+          const greenhouse = greenhouseData.find(gh => gh.id.toString() === greenhouseId);
+          if (!greenhouse) {
+              console.error(`Greenhouse with id ${greenhouseId} not found`);
+              return;
+          }
+      
+          const redrawContainer = document.getElementById(`redraw-${greenhouseId}`);
+          if (!redrawContainer) {
+              console.error(`Redraw container for greenhouse ${greenhouseId} not found`);
+              return;
+          }
+      
+          // Make sure the redraw row is visible
+          const redrawRow = redrawContainer.closest('.redraw-row');
+          if (redrawRow) {
+              redrawRow.style.display = 'table-row';
+              const toggleButton = redrawRow.previousElementSibling.querySelector('.toggle-redraw');
+              if (toggleButton) {
+                  const icon = toggleButton.querySelector('.arrow-icon');
+                  icon.classList.remove('fa-chevron-down');
+                  icon.classList.add('fa-chevron-up');
+              }
+          }
+      
+          document.querySelectorAll('.greenhouse-row').forEach(row => {
+              row.classList.remove('selected');
+          });
+      
+          const currentRow = document.querySelector(`[data-greenhouse-id="${greenhouseId}"]`).closest('tr');
+          currentRow.classList.add('selected');
+      
+          setTimeout(() => {
+              console.log(`Drawing greenhouse ${greenhouseId}`);
+              const canvas = document.createElement('canvas');
+              const containerWidth = redrawContainer.offsetWidth;
+              const canvasSize = Math.min(containerWidth, 240); // Limit to 240px max
+              canvas.width = canvasSize;
+              canvas.height = canvasSize;
+              const ctx = canvas.getContext('2d');
+      
+              const gridSize = 16;
+              const cellSize = canvasSize / gridSize;
+      
+              // Draw grid
+              ctx.strokeStyle = 'rgba(200, 200, 200, 0.5)';
+              ctx.lineWidth = 1;
+              for (let i = 0; i <= gridSize; i++) {
+                  const pos = i * cellSize;
+                  ctx.beginPath();
+                  ctx.moveTo(pos, 0);
+                  ctx.lineTo(pos, canvas.height);
+                  ctx.stroke();
+                  ctx.beginPath();
+                  ctx.moveTo(0, pos);
+                  ctx.lineTo(canvas.width, pos);
+                  ctx.stroke();
+              }
+      
+              // Draw selections
+              greenhouse.data.forEach((selection, index) => {
+                  const left = Math.min(selection.start.x, selection.end.x) * cellSize;
+                  const top = Math.min(selection.start.y, selection.end.y) * cellSize;
+                  const width = (Math.abs(selection.end.x - selection.start.x) + 1) * cellSize;
+                  const height = (Math.abs(selection.end.y - selection.start.y) + 1) * cellSize;
+      
+                  ctx.fillStyle = selection.hasImage ? 'rgba(40, 167, 69, 0.2)' : 'rgba(200, 200, 200, 0.2)';
+                  ctx.fillRect(left, top, width, height);
+                  ctx.strokeStyle = selection.hasImage ? '#28a745' : '#000000';
+                  ctx.strokeRect(left, top, width, height);
+      
+                  ctx.fillStyle = '#000000';
+                  ctx.font = '12px Arial';
+                  ctx.textAlign = 'center';
+                  ctx.textBaseline = 'middle';
+                  ctx.fillText(`Area ${index + 1}`, left + width / 2, top + height / 2);
+              });
+      
+              redrawContainer.innerHTML = '';
+              redrawContainer.appendChild(canvas);
+      
+              canvas.addEventListener('click', (event) => {
+                  const rect = canvas.getBoundingClientRect();
+                  const x = event.clientX - rect.left;
+                  const y = event.clientY - rect.top;
+                  const gridX = Math.floor(x / cellSize);
+                  const gridY = Math.floor(y / cellSize);
+      
+                  greenhouse.data.forEach((selection, index) => {
+                      if (gridX >= selection.start.x && gridX <= selection.end.x &&
+                          gridY >= selection.start.y && gridY <= selection.end.y) {
+      
+                          // Create a file input element
+                          const fileInput = document.createElement('input');
+                          fileInput.type = 'file';
+                          fileInput.accept = 'image/*';
+                          fileInput.multiple = true;
+      
+                          fileInput.addEventListener('change', function (e) {
+                              const files = e.target.files;
+                              if (files.length > 0) {
+                                  // Simulate a successful upload
+                                  const formData = new FormData();
+                                  formData.append('greenhouseId', greenhouseId);
+                                  for (let i = 0; i < files.length; i++) {
+                                      formData.append('images', files[i]);
+                                  }
+                                  console.log(`${files.length} file(s) selected for Area ${index + 1}`);
+                                  fetch(`/api/upload_image/`, {
+                                      method: 'POST',
+                                      headers: {
+                                          'X-CSRFToken': '{{ csrf_token }}'
+                                      },
+                                      credentials: 'same-origin',
+                                      body: formData
+                                  })
+                                  .then(response => {
+                                      if (!response.ok) {
+                                          throw new Error('Network response was not ok');
+                                      }
+                                      return response.json();
+                                  })
+                                  .then(data => {
+                                      console.log('Success:', data);
+                                      // Handle successful response here
+                                  })
+                                  .catch(error => {
+                                      console.error('Error:', error);
+                                      showNotification('An error occurred while sending the greenhouse information.', false);
+                                  });
+                                  // Update the selection to indicate it has an image
+                                  selection.hasImage = true;
+      
+                                  // Redraw the greenhouse to reflect the change
+                                  redrawGreenhouse(greenhouseId);
+                              }
+                          });
+      
+                          fileInput.click();
+                      }
+                  });
+              });
+      
+              console.log(`Finished drawing greenhouse ${greenhouseId}`);
+          }, 50); // Small delay to ensure container width is available
+      };
         });
 
     </script>
