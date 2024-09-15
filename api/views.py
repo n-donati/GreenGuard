@@ -69,4 +69,37 @@ def upload_images(request):
     path = save_unique_file(image)
     obj = Image(user=request.user, path=path, greenhouse=greenhouse)
     obj.save()
+    file_url = default_storage.url(path)
+    response = requests.get(file_url)
+    open_image = PILImage.open(BytesIO(response.content))
+    preprocessed_image = preprocess_image(open_image)
+    # TODO remove ip address
+    client = make_grpc_client('34.123.59.235:9000')
+    inputs = {'keras_tensor': preprocessed_image}
+    # TODO connect with external variable
+    # TODO hide IP address
+    crop_type = 'rice'
+    if crop_type == 'cucumber': 
+      model_name = 'cucumber_model'
+      client = make_grpc_client('34.123.59.235:7000')
+      bins = []
+    elif crop_type == 'rice':
+      client = make_grpc_client('34.123.59.235:9000')
+      model_name = 'rice_model'
+      bins = ['Bacterial Leaf Blight', 'Brown Spot', 'Healthy Rice Leaf', 'Leaf Blast', 'Leaf Scald', 'Sheath Blight']
+    elif crop_type == 'tomato':
+      client = make_grpc_client('34.123.59.235:8000')
+      model_name = 'tomato_model'
+      bins = []
+    model_version = 0
+    response = client.predict(inputs, model_name, model_version)
+    output = response
+    if isinstance(output, (list, np.ndarray)):
+      output_array = np.array(output).flatten()  # Flatten in case it's 2D
+      predicted_class = bins[np.argmax(output_array)]
+      confidence = np.max(output_array)
+    tup = (predicted_class, confidence)
+    print(tup)
+    predictions.append((predicted_class, confidence))
+    request.session['prediction'] = convert_to_python_types(predictions)
    return Response({"success": True})
