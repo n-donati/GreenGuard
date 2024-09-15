@@ -5,10 +5,19 @@ from pages import views as page_views
 from django.conf import settings
 from django.conf.urls.static import static
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', page_views.home, name='home'),
-    path('pages/', include('pages.urls')),
-    path('dashboard/', include('dashboard.urls')),
-    path('api/', include('api.urls')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+if settings.PROD:
+  urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('', page_views.home, name='home'),
+      path('pages/', include('pages.urls')),
+      path('dashboard/', include('dashboard.urls')),
+      path('api/', include('api.urls')),
+  ]
+else:
+  urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('', page_views.home, name='home'),
+      path('pages/', include('pages.urls')),
+      path('dashboard/', include('dashboard.urls')),
+      path('api/', include('api.urls')),
+  ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
