@@ -210,3 +210,5 @@ def get_greenhouse_data(request):
     greenhouse = Greenhouse.objects.get(id=greenhouse_id)
     return JsonResponse({'data': greenhouse.data})
 
+def orders(request):
+    return render(request, "orders.html")

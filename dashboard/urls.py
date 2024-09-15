@@ -14,4 +14,5 @@ urlpatterns = [
     path('signup/', page_views.signup, name='signup'),
     path('logout/', page_views.logout, name='logout'),
     path('get_greenhouse_data/', page_views.get_greenhouse_data, name='get_greenhouse_data'),
+    path('orders/', page_views.orders, name='orders'),
 ]
