@@ -39,7 +39,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-CORS_ALLOWED_ORIGINS = []
+CORS_ALLOWED_ORIGINS = ['greenguard.com.mx']
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^http://localhost:\d+$",  # Allow all localhost ports

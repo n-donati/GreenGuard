@@ -23,12 +23,12 @@ CLOUDRUN_SERVICE_URL = env("CLOUDRUN_SERVICE_URL", default=None)
 if CLOUDRUN_SERVICE_URL:
   ALLOWED_HOSTS = [
       urlparse(CLOUDRUN_SERVICE_URL).netloc,
+      'greenguard.com.mx',
   ]
-  CSRF_TRUSTED_ORIGINS = [CLOUDRUN_SERVICE_URL, ]
+  CSRF_TRUSTED_ORIGINS = [CLOUDRUN_SERVICE_URL, 'https://greenguard.com.mx']
 else:
   ALLOWED_HOSTS = ["*"]
 
-# Default false. True allows default landing pages to be visible
 DEBUG = env("DEBUG", default=False)
 
 # Set this value from django-environ
