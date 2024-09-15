@@ -89,7 +89,7 @@
                                             d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
                                     </svg>
                                 </span>
-                                <span class="nav-link-text">Overview</span>
+                                <span class="nav-link-text">Tablero</span>
                             </a><!--//nav-link-->
                         </li><!--//nav-item-->
                         <li class="nav-item">
@@ -106,7 +106,7 @@
                                         <circle cx="3.5" cy="10.5" r=".5" />
                                     </svg>
                                 </span>
-                                <span class="nav-link-text">Monitoring</span>
+                                <span class="nav-link-text">Monitoreo</span>
                             </a><!--//nav-link-->
                         </li><!--//nav-item-->
                         <li class="nav-item">
@@ -118,7 +118,7 @@
                                             d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
                                     </svg>
                                 </span>
-                                <span class="nav-link-text">Greenhouses</span>
+                                <span class="nav-link-text">Invernaderos</span>
                             </a><!--//nav-link-->
                         </li><!--//nav-item-->
                         <li class="nav-item">
@@ -143,7 +143,7 @@
     <div class="app-wrapper">
         <div class="app-content pt-3 p-md-3 p-lg-4">
             <div class="container mt-3">
-                <h1>Orders</h1>
+                <h1>GreenShare</h1>
 
                 <div class="row my-4">
                     <div class="col-md-4">
@@ -227,14 +227,30 @@
                 <td><button class="btn btn-sm btn-secondary">Contactar</button></td>
             `;
         }
-    
+
         // Add initial orders
-        addOrderRow('#15346', 'Lorem ipsum dolor sit amet', 'John Sanders', '17 Oct, 2:16 PM', 97, '$259.35');
-        addOrderRow('#15345', 'Consectetur adipiscing elit', 'Dylan Ambrose', '16 Oct, 03:16 AM', 92, '$96.20');
-        addOrderRow('#15344', 'Pellentesque diam imperdiet', 'Teresa Holland', '16 Oct, 01:16 AM', 95, '$123.00');
-        addOrderRow('#15343', 'Vestibulum a accumsan lectus', 'Jayden Massey', '15 Oct, 8:07 PM', 98, '$199.00');
-        addOrderRow('#15342', 'Justo feugiat neque', 'Reina Brooks', '12 Oct, 04:23 PM', 88, '$59.00');
-    
+        addOrderRow('#67890', 'Tomate', 'Emily Johnson', '3 Nov, 9:45 AM', 53, '7/10');
+        addOrderRow('#23456', 'Arroz', 'Michael Brown', '18 Oct, 11:30 AM', 99, '10/10');
+        addOrderRow('#78901', 'Pepino', 'Sarah Davis', '22 Oct, 3:20 PM', 72, '8/10');
+        addOrderRow('#34567', 'Tomate, Arroz', 'David Wilson', '5 Nov, 1:15 PM', 88, '6/10');
+        addOrderRow('#89012', 'Arroz, Pepino', 'Lisa Martinez', '29 Oct, 10:05 AM', 91, '9/10');
+        addOrderRow('#45678', 'Tomate, Pepino', 'Robert Taylor', '12 Nov, 4:50 PM', 65, '7/10');
+        addOrderRow('#90123', 'Tomate', 'Jennifer Anderson', '8 Nov, 2:35 PM', 41, '5/10');
+        addOrderRow('#56789', 'Arroz', 'Christopher Lee', '1 Nov, 9:20 AM', 100, '10/10');
+        addOrderRow('#01234', 'Pepino', 'Amanda White', '25 Oct, 12:40 PM', 59, '7/10');
+        addOrderRow('#67890', 'Tomate, Arroz, Pepino', 'Daniel Harris', '14 Nov, 3:55 PM', 94, '8/10');
+        addOrderRow('#23456', 'Tomate', 'Michelle Clark', '7 Nov, 11:10 AM', 77, '6/10');
+        addOrderRow('#78901', 'Arroz', 'James Rodriguez', '30 Oct, 1:25 PM', 96, '9/10');
+        addOrderRow('#34567', 'Pepino', 'Elizabeth Moore', '19 Oct, 10:15 AM', 83, '7/10');
+        addOrderRow('#89012', 'Tomate, Arroz', 'William Jackson', '9 Nov, 4:30 PM', 69, '8/10');
+        addOrderRow('#45678', 'Arroz, Pepino', 'Patricia Lewis', '2 Nov, 2:50 PM', 98, '7/10');
+        addOrderRow('#90123', 'Tomate, Pepino', 'Thomas Hall', '27 Oct, 9:05 AM', 56, '6/10');
+        addOrderRow('#56789', 'Tomate', 'Barbara Young', '16 Nov, 1:40 PM', 43, '8/10');
+        addOrderRow('#01234', 'Arroz', 'Richard Scott', '21 Oct, 3:25 PM', 97, '9/10');
+        addOrderRow('#67890', 'Pepino', 'Margaret King', '11 Nov, 10:55 AM', 71, '7/10');
+        addOrderRow('#23456', 'Tomate, Arroz, Pepino', 'Joseph Wright', '4 Nov, 5:00 PM', 92, '8/10');
+
+
         // You can easily add more rows by copy-pasting the addOrderRow function call and changing the values
         // For example:
         // addOrderRow('#15341', 'New product', 'New customer', '11 Oct, 11:18 AM', 93, '$678.26');
