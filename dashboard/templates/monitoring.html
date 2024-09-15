@@ -154,12 +154,11 @@
                             <table class="table app-table-hover mb-0 text-left">
                                 <thead>
                                     <tr>
-                                        <th class="cell">Greenhouse</th>
-                                        <th class="cell">Temperature</th>
-                                        <th class="cell">Humidity</th>
-                                        <th class="cell">Light</th>
-                                        <th class="cell">Soil Moisture</th>
-                                        <th class="cell"></th>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                        <th>Overall Health</th>
+                                        <th>Updated</th>
+                                        <th>Monitor</th>
                                     </tr>
                                 </thead>
                                 <tbody id="greenhouse-rows">
@@ -190,35 +189,162 @@
     <!-- Page Specific JS -->
     <script src="{% static 'assets/js/app.js' %}"></script>
 
+    <style>
+        :root {
+            --primary-color: #28a745;
+            --secondary-color: #17a2b8;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .app-card {
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .table {
+            background-color: white;
+        }
+
+        .table thead th {
+            background-color: #f1f3f5;
+            border-bottom: 2px solid var(--border-color);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .greenhouse-row td {
+            vertical-align: middle;
+            padding: 0.75rem;
+        }
+
+        .health-indicator {
+            width: 60px;
+            height: 30px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-redraw {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-redraw:hover {
+            color: #138496;
+        }
+
+        .greenhouse-redraw-container {
+            display: flex;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .greenhouse-redraw {
+            flex: 0 0 auto;
+            margin-right: 1rem;
+        }
+
+        .greenhouse-redraw canvas {
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+        }
+
+        .greenhouse-info {
+            flex: 1 1 auto;
+            font-size: 0.9rem;
+        }
+
+        .greenhouse-row.selected td {
+            background-color: rgba(40, 167, 69, 0.1);
+            border-color: var(--primary-color);
+        }
+    </style>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const greenhouseData = {{ greenhouses|safe }};
+        document.addEventListener('DOMContentLoaded', function () {
+            const greenhouseData = JSON.parse('{{ greenhouses|safe }}');
             const greenhouseRows = document.getElementById('greenhouse-rows');
 
+            function getHealthColor(health) {
+                if (health >= 80) return ['#28a745', '#d4edda'];
+                if (health >= 60) return ['#ffc107', '#fff3cd'];
+                if (health >= 40) return ['#fd7e14', '#fff3cd'];
+                if (health >= 20) return ['#dc3545', '#f8d7da'];
+                return ['#6c757d', '#e9ecef'];
+            }
+
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+
             greenhouseData.forEach((greenhouse) => {
+                const health = Math.floor(Math.random() * 101);
+                const [borderColor, backgroundColor] = getHealthColor(health);
+                const updatedDate = new Date().toISOString();
+
                 const row = document.createElement('tr');
+                row.className = 'greenhouse-row';
                 row.innerHTML = `
-                    <td class="cell">${greenhouse.name}</td>
-                    <td class="cell">25°C</td>
-                    <td class="cell">60%</td>
-                    <td class="cell">5000 lux</td>
-                    <td class="cell">70%</td>
-                    <td class="cell">
-                        <button class="btn-sm app-btn-secondary toggle-redraw" data-greenhouse-id="${greenhouse.id}">
-                            <i class="fas fa-chevron-up arrow-icon"></i>
-                        </button>
-                    </td>
-                `;
+            <td class="cell">${greenhouse.name}</td>
+            <td class="cell">
+                <div class="health-indicator" style="border: 2px solid ${borderColor}; background-color: ${backgroundColor}; color: ${borderColor};">
+                    ${health}%
+                </div>
+            </td>
+            <td class="cell">${health}%</td>
+            <td class="cell">${formatDate(updatedDate)}</td>
+            <td class="cell">
+                <button class="btn-sm toggle-redraw" data-greenhouse-id="${greenhouse.id}">
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </button>
+            </td>
+        `;
                 greenhouseRows.appendChild(row);
 
                 const redrawRow = document.createElement('tr');
                 redrawRow.className = 'redraw-row';
                 redrawRow.style.display = 'none';
                 redrawRow.innerHTML = `
-                    <td colspan="6">
-                        <div class="greenhouse-redraw" id="redraw-${greenhouse.id}"></div>
-                    </td>
-                `;
+            <td colspan="5">
+                <div class="greenhouse-redraw-container">
+                    <div class="greenhouse-redraw" id="redraw-${greenhouse.id}"></div>
+                    <div class="greenhouse-info">
+                        <h6>Instructions:</h6>
+                        <p>Click on an area to simulate uploading a picture.</p>
+                        <p><small class="text-muted">Gray: No pictures | Green: Pictures uploaded</small></p>
+                    </div>
+                </div>
+            </td>
+        `;
                 greenhouseRows.appendChild(redrawRow);
             });
 
@@ -230,24 +356,39 @@
 
                     if (redrawRow.style.display === 'none') {
                         redrawRow.style.display = 'table-row';
-                        icon.classList.add('rotated');
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
                         redrawGreenhouse(greenhouseId);
                     } else {
                         redrawRow.style.display = 'none';
-                        icon.classList.remove('rotated');
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                        this.closest('tr').classList.remove('selected');
                     }
                 });
             });
 
             function redrawGreenhouse(greenhouseId) {
+                const greenhouse = greenhouseData.find(gh => gh.id.toString() === greenhouseId);
+                if (!greenhouse) return;
+
+                document.querySelectorAll('.greenhouse-row').forEach(row => {
+                    row.classList.remove('selected');
+                });
+
+                const currentRow = document.querySelector(`[data-greenhouse-id="${greenhouseId}"]`).closest('tr');
+                currentRow.classList.add('selected');
+
                 const redrawContainer = document.getElementById(`redraw-${greenhouseId}`);
                 const canvas = document.createElement('canvas');
-                canvas.width = 200;
-                canvas.height = 200;
+                const containerWidth = redrawContainer.offsetWidth;
+                const canvasSize = Math.min(containerWidth, 240); // Limit to 240px max
+                canvas.width = canvasSize;
+                canvas.height = canvasSize;
                 const ctx = canvas.getContext('2d');
 
                 const gridSize = 16;
-                const cellSize = canvas.width / gridSize;
+                const cellSize = canvasSize / gridSize;
 
                 // Draw grid
                 ctx.strokeStyle = 'rgba(200, 200, 200, 0.5)';
@@ -265,22 +406,19 @@
                 }
 
                 // Draw selections
-                ctx.fillStyle = 'rgba(40, 167, 69, 0.2)';
-                ctx.strokeStyle = '#28a745';
-                ctx.lineWidth = 2;
-
-                greenhouseData[greenhouseId].forEach((selection, index) => {
+                greenhouse.data.forEach((selection, index) => {
                     const left = Math.min(selection.start.x, selection.end.x) * cellSize;
                     const top = Math.min(selection.start.y, selection.end.y) * cellSize;
                     const width = (Math.abs(selection.end.x - selection.start.x) + 1) * cellSize;
                     const height = (Math.abs(selection.end.y - selection.start.y) + 1) * cellSize;
 
+                    ctx.fillStyle = selection.hasImage ? 'rgba(40, 167, 69, 0.2)' : 'rgba(200, 200, 200, 0.2)';
                     ctx.fillRect(left, top, width, height);
+                    ctx.strokeStyle = selection.hasImage ? '#28a745' : '#000000';
                     ctx.strokeRect(left, top, width, height);
 
-                    // Add area name
-                    ctx.fillStyle = '#28a745';
-                    ctx.font = '10px Arial';
+                    ctx.fillStyle = '#000000';
+                    ctx.font = '12px Arial';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillText(`Area ${index + 1}`, left + width / 2, top + height / 2);
@@ -288,6 +426,22 @@
 
                 redrawContainer.innerHTML = '';
                 redrawContainer.appendChild(canvas);
+
+                canvas.addEventListener('click', (event) => {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+                    const gridX = Math.floor(x / cellSize);
+                    const gridY = Math.floor(y / cellSize);
+
+                    greenhouse.data.forEach((selection, index) => {
+                        if (gridX >= selection.start.x && gridX <= selection.end.x &&
+                            gridY >= selection.start.y && gridY <= selection.end.y) {
+                            selection.hasImage = true;
+                            redrawGreenhouse(greenhouseId);
+                        }
+                    });
+                });
             }
         });
     </script>

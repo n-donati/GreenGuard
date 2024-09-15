@@ -506,16 +506,16 @@
                     }
 
                     // Draw selections
-                    ctx.fillStyle = 'rgba(40, 167, 69, 0.2)';
                     ctx.strokeStyle = '#28a745';
                     ctx.lineWidth = 2;
-
                     data.forEach((selection, index) => {
                         const left = Math.min(selection.start.x, selection.end.x) * previewCellSize;
                         const top = Math.min(selection.start.y, selection.end.y) * previewCellSize;
                         const width = (Math.abs(selection.end.x - selection.start.x) + 1) * previewCellSize;
                         const height = (Math.abs(selection.end.y - selection.start.y) + 1) * previewCellSize;
 
+                        // Set fillStyle for each area
+                        ctx.fillStyle = 'rgba(40, 167, 69, 0.2)';
                         ctx.fillRect(left, top, width, height);
                         ctx.strokeRect(left, top, width, height);
 
@@ -534,33 +534,52 @@
                     console.log('View details for greenhouse:', greenhouseId);
                 }
 
+                function showNotification(message, isSuccess = true) {
+                    const notification = document.createElement('div');
+                    notification.textContent = message;
+                    notification.style.position = 'fixed';
+                    notification.style.bottom = '20px';  // Changed from top to bottom
+                    notification.style.right = '20px';
+                    notification.style.padding = '10px 20px';
+                    notification.style.borderRadius = '5px';
+                    notification.style.color = 'white';
+                    notification.style.backgroundColor = isSuccess ? '#28a745' : '#dc3545';
+                    notification.style.zIndex = '1000';
+                    document.body.appendChild(notification);
+
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 3000);
+                }
+
                 function editName(event) {
                     const greenhouseId = event.target.getAttribute('data-id');
                     const newName = prompt('Enter new name for the greenhouse:');
                     if (newName) {
-                        fetch(`/api/${greenhouseId}/edit/`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                                'X-CSRFToken': '{{ csrf_token }}'
-                            },
-                            credentials: 'same-origin'
-                            ,
-                            body: `new_name=${encodeURIComponent(newName)}`
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    event.target.closest('.app-card').querySelector('.app-card-title').textContent = data.new_name;
-                                    alert('Greenhouse name updated successfully!');
-                                } else {
-                                    alert('Failed to update greenhouse name. ' + data.error);
-                                }
+                        if (confirm(`Are you sure you want to rename this greenhouse to "${newName}"?`)) {
+                            fetch(`/api/${greenhouseId}/edit/`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                    'X-CSRFToken': '{{ csrf_token }}'
+                                },
+                                credentials: 'same-origin',
+                                body: `new_name=${encodeURIComponent(newName)}`
                             })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                alert('An error occurred while updating the greenhouse name.');
-                            });
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        event.target.closest('.app-card').querySelector('.app-card-title').textContent = data.new_name;
+                                        showNotification('Greenhouse name updated successfully!');
+                                    } else {
+                                        showNotification('Failed to update greenhouse name: ' + data.error, false);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    showNotification('An error occurred while updating the greenhouse name.', false);
+                                });
+                        }
                     }
                 }
 
@@ -571,22 +590,22 @@
                             method: 'POST',
                             headers: {
                                 'X-CSRFToken': '{{ csrf_token }}'
-                            }, 
+                            },
                             credentials: 'same-origin'
                         })
                             .then(response => response.json())
                             .then(data => {
                                 if (data.success) {
                                     event.target.closest('.col-md-4').remove();
-                                    alert('Greenhouse deleted successfully!');
+                                    showNotification('Greenhouse deleted successfully!');
                                     updateGreenhouseStats();
                                 } else {
-                                    alert('Failed to delete greenhouse.');
+                                    showNotification('Failed to delete greenhouse.', false);
                                 }
                             })
                             .catch(error => {
                                 console.error('Error:', error);
-                                alert('An error occurred while deleting the greenhouse.');
+                                showNotification('An error occurred while deleting the greenhouse.', false);
                             });
                     }
                 }
@@ -631,4 +650,5 @@
         </script>
 
 </body>
+
 </html>

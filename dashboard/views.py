@@ -72,7 +72,11 @@ def delete_greenhouse(request, greenhouse_id):
 def monitoring(request):
     greenhouses = Greenhouse.objects.filter(user=request.user).order_by('-created_at')
     context = {
-        'greenhouses': [{'id': gh.id, 'name': gh.name, 'data': gh.data} for gh in greenhouses]
+        'greenhouses': json.dumps([{
+            'id': gh.id,
+            'name': gh.name,
+            'data': gh.data
+        } for gh in greenhouses])
     }
     return render(request, "monitoring.html", context)
 
@@ -121,3 +125,10 @@ def user_login(request):
 def logout(request):
     auth_logout(request)
     return redirect('home')
+
+from django.http import JsonResponse
+
+def get_greenhouse_data(request):
+    greenhouse_id = request.GET.get('greenhouse_id')
+    greenhouse = Greenhouse.objects.get(id=greenhouse_id)
+    return JsonResponse({'data': greenhouse.data})
