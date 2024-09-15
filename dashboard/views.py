@@ -11,6 +11,7 @@ from PIL import Image as PILImage
 from ovmsclient import make_grpc_client
 from django.core.serializers.json import DjangoJSONEncoder
 from django.forms.models import model_to_dict
+from api.models import *
 
 def save_unique_file(file, folder=''):
   # Generate a unique filename
@@ -104,14 +105,55 @@ def dashboard(request):
         return redirect('login')
     
     # extraer del database cantidad de invernaderos, salud general y ultima actualizacion
+    
     # recommendation = recommendation1(10, 90, "2022-01-01")
-    return render(request, "dashboard.html", {'user': user})
-
-def get_recommendation(request):
+    # greenhouses = Greenhouse.objects.filter(user=request.user)
     user_id = request.session["user_id"]
     greenhouses = list(Greenhouse.objects.filter(user=User.objects.get(id=user_id)))
+    
+    total_square_units = 0
+    weighted_health_sum = 0
+    
+    # Iterate through all the greenhouses
+    for greenhouse in greenhouses:
+        square_units = greenhouse.total_square_units
+        crop = None
+        
+        # Check which crop type the greenhouse has using related names
+        if greenhouse.crop_type == "rice":
+            crop = greenhouse.rice.first()
+        elif greenhouse.crop_type == "tomato":
+            crop = greenhouse.tomato.first()
+        elif greenhouse.crop_type == "cucumber":
+            crop = greenhouse.cucumber.first()
 
-    recommendation = recommendation1(len(greenhouses), 90, "2022-01-01")
+        if crop is not None and square_units:
+            # Calculate the health percentage for the crop
+            health_percentage = crop.healthy if crop.healthy is not None else 0
+            health_percentage *= 100 
+            
+            if health_percentage is not None:
+                weighted_health_sum += health_percentage * square_units
+                total_square_units += square_units
+    
+    # Calculate overall weighted health percentage
+    if total_square_units > 0 and crop is not None:
+        salud_general = weighted_health_sum / total_square_units
+    else:
+        salud_general = 0  # Default if no square footage is available
+    
+    rating = 0
+    
+    return render(request, "dashboard.html", {'user': user, 'greenhouse_quantity':len(greenhouses), 'salud_general': salud_general, 'rating': rating})
+
+def get_recommendation(request):
+    porcentaje_salud = request.GET.get('salud_general', 90)
+    user_id = request.session["user_id"]
+    greenhouses = list(Greenhouse.objects.filter(user=User.objects.get(id=user_id)))
+    
+    last_submission_date = Image.objects.filter(user=User.objects.get(id=user_id)).order_by('-uploaded').first().uploaded
+
+    recommendation = recommendation1(len(greenhouses), porcentaje_salud, last_submission_date)
     return JsonResponse({'recommendation': recommendation})
 
 @login_required
@@ -222,6 +264,8 @@ def user_login(request):
             return redirect('dashboard')
     
     return render(request, "login.html")
+
+
 
 def logout(request):
     auth_logout(request)
