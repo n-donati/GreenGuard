@@ -34,3 +34,8 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
 ]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Default file storage
+DEFAULT_FILE_STORAGE = 'mainframe.cloudstorage.CustomGoogleCloudStorage'

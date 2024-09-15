@@ -1,0 +1,15 @@
+{%load static%}
+<h2>Upload a batch of images for the greenhouse</h2>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div>
+      <label for="images">Select multiple images:</label>
+      <input type="file" id="images" name="images" accept="image/*" multiple required>
+  </div>
+  <button type="submit">Upload Images</button>
+</form>
+{%if prediction %}
+{%for prediction in predictions %}
+<p>This is the prediction for image {{forloop.counter}}: {{prediction}}</p>
+{%endfor%}
+{%endif%}
