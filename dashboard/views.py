@@ -110,6 +110,7 @@ def dashboard(request):
     # greenhouses = Greenhouse.objects.filter(user=request.user)
     user_id = request.session["user_id"]
     greenhouses = list(Greenhouse.objects.filter(user=User.objects.get(id=user_id)))
+    last_update = Image.objects.filter(user=User.objects.get(id=user_id)).order_by('-uploaded').first().uploaded
     
     total_square_units = 0
     weighted_health_sum = 0
@@ -142,9 +143,18 @@ def dashboard(request):
     else:
         salud_general = 0  # Default if no square footage is available
     
-    rating = 0
-    
-    return render(request, "dashboard.html", {'user': user, 'greenhouse_quantity':len(greenhouses), 'salud_general': salud_general, 'rating': rating})
+    if salud_general > 90:
+        rating = "5/5"
+    elif salud_general > 70:
+        rating = "4/5"
+    elif salud_general > 50:
+        rating = "3/5"
+    elif salud_general > 30:
+        rating = "2/5"
+    else:
+        rating = "1/5"  
+            
+    return render(request, "dashboard.html", {'user': user, 'greenhouse_quantity':len(greenhouses), 'salud_general': salud_general, 'rating': rating, 'last_update':last_update})
 
 def get_recommendation(request):
     porcentaje_salud = request.GET.get('salud_general', 90)
