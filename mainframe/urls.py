@@ -10,4 +10,5 @@ urlpatterns = [
     path('', page_views.home, name='home'),
     path('pages/', include('pages.urls')),
     path('dashboard/', include('dashboard.urls')),
+    path('api/', include('api.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,0 +1,475 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Monitoring - GreenGuard</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Monitoring - GreenGuard">
+    <meta name="author" content="GreenGuard">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+
+    <!-- FontAwesome JS-->
+    <script defer src="{% static 'assets/plugins/fontawesome/js/all.min.js' %}"></script>
+
+    <!-- App CSS -->
+    <link id="theme-style" rel="stylesheet" href="{% static 'assets/css/portal.css' %}">
+
+    <style>
+        .arrow-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .arrow-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .greenhouse-redraw {
+            width: 200px;
+            height: 200px;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+
+<body class="app cool-background">
+    <header class="app-header fixed-top">
+        <div class="app-header-inner">
+            <div class="container-fluid py-2">
+                <div class="app-header-content">
+                    <div class="row justify-content-between align-items-center">
+
+                        <div class="col-auto">
+                            <a id="sidepanel-toggler" class="sidepanel-toggler d-inline-block d-xl-none" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"
+                                    role="img">
+                                    <title>Menu</title>
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
+                                        stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path>
+                                </svg>
+                            </a>
+                        </div><!--//col-->
+                        <div class="app-search-box col">
+                            <form class="app-search-form">
+                                <input type="text" placeholder="Search..." name="search"
+                                    class="form-control search-input">
+                                <button type="submit" class="btn search-btn btn-primary" value="Search"><i
+                                        class="fas fa-search"></i></button>
+                            </form>
+                        </div><!--//app-search-box-->
+
+                        <div class="app-utilities col-auto">
+                            <div class="app-utility-item app-user-dropdown dropdown">
+                                <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                                    role="button" aria-expanded="false"><img src="{% static 'assets/images/user.png' %}"
+                                        alt="user profile"></a>
+                                <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
+                                    <li><a class="dropdown-item" href="">Settings</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
+                                </ul>
+                            </div><!--//app-user-dropdown-->
+                        </div><!--//app-utilities-->
+                    </div><!--//row-->
+                </div><!--//app-header-content-->
+            </div><!--//container-fluid-->
+        </div><!--//app-header-inner-->
+        <div id="app-sidepanel" class="app-sidepanel">
+            <div id="sidepanel-drop" class="sidepanel-drop"></div>
+            <div class="sidepanel-inner d-flex flex-column">
+                <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
+                <div class="app-branding">
+                    <a class="app-logo" href="{% url 'home' %}"><img class="logo-icon me-2"
+                            src="{% static 'assets/images/app-logo.svg' %}" alt="logo"><span
+                            class="logo-text">GREENGUARD</span></a>
+
+                </div><!--//app-branding-->
+
+                <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
+                    <ul class="app-menu list-unstyled accordion" id="menu-accordion">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard' %}">
+                                <span class="nav-icon">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-house-door"
+                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.646 1.146a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5H9.5a.5.5 0 0 1-.5-.5v-4H7v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6zM2.5 7.707V14H6v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4h3.5V7.707L8 2.207l-5.5 5.5z" />
+                                        <path fill-rule="evenodd"
+                                            d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+                                    </svg>
+                                </span>
+                                <span class="nav-link-text">Overview</span>
+                            </a><!--//nav-link-->
+                        </li><!--//nav-item-->
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'monitoring' %}">
+                                <span class="nav-icon">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list"
+                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
+                                        <path fill-rule="evenodd"
+                                            d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z" />
+                                        <circle cx="3.5" cy="5.5" r=".5" />
+                                        <circle cx="3.5" cy="8" r=".5" />
+                                        <circle cx="3.5" cy="10.5" r=".5" />
+                                    </svg>
+                                </span>
+                                <span class="nav-link-text">Monitoring</span>
+                            </a><!--//nav-link-->
+                        </li><!--//nav-item-->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'greenhouses' %}">
+                                <span class="nav-icon">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bar-chart-line"
+                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                                    </svg>
+                                </span>
+                                <span class="nav-link-text">Greenhouses</span>
+                            </a><!--//nav-link-->
+                        </li><!--//nav-item-->
+                    </ul><!--//app-menu-->
+                </nav><!--//app-nav-->
+            </div><!--//sidepanel-inner-->
+        </div><!--//app-sidepanel-->
+    </header><!--//app-header-->
+
+    <div class="app-wrapper">
+        <div class="app-content pt-3 p-md-3 p-lg-4">
+            <div class="container-xl">
+                <h1 class="app-page-title">Monitoring</h1>
+
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="app-card-body">
+                        <div class="table-responsive">
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Crop</th>
+                                        <th>Status</th>
+                                        <th>Overall Health</th>
+                                        <th>Updated</th>
+                                        <th>Monitor</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="greenhouse-rows">
+                                    <!-- Greenhouse rows will be dynamically inserted here -->
+                                </tbody>
+                            </table>
+                        </div><!--//table-responsive-->
+                    </div><!--//app-card-body-->
+                </div><!--//app-card-->
+
+            </div><!--//container-fluid-->
+        </div><!--//app-content-->
+
+        <footer class="app-footer">
+            <div class="container text-center py-3">
+                <small class="copyright">Crafted with passion for growers by <a class="app-link" href="{% url 'home' %}"
+                        target="_blank">GreenGuard</a><span class="sr-only"></span> <i class="fas fa-leaf"
+                        style="color: #327230;"></i></small>
+            </div>
+        </footer><!--//app-footer-->
+
+    </div><!--//app-wrapper-->
+
+    <!-- Javascript -->
+    <script src="{% static 'assets/plugins/popper.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- Page Specific JS -->
+    <script src="{% static 'assets/js/app.js' %}"></script>
+
+    <style>
+        :root {
+            --primary-color: #28a745;
+            --secondary-color: #17a2b8;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .app-card {
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .table {
+            background-color: white;
+        }
+
+        .table thead th {
+            background-color: #f1f3f5;
+            border-bottom: 2px solid var(--border-color);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .greenhouse-row td {
+            vertical-align: middle;
+            padding: 0.75rem;
+        }
+
+        .health-indicator {
+            width: 60px;
+            height: 30px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-redraw {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-redraw:hover {
+            color: #138496;
+        }
+
+        .greenhouse-redraw-container {
+            display: flex;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .greenhouse-redraw {
+            flex: 0 0 auto;
+            margin-right: 1rem;
+        }
+
+        .greenhouse-redraw canvas {
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+        }
+
+        .greenhouse-info {
+            flex: 1 1 auto;
+            font-size: 0.9rem;
+        }
+
+        .greenhouse-row.selected td {
+            background-color: rgba(40, 167, 69, 0.1);
+            border-color: var(--primary-color);
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const greenhouseData = JSON.parse('{{ greenhouses|safe }}');
+            const greenhouseRows = document.getElementById('greenhouse-rows');
+
+            function getHealthColor(health) {
+                if (health >= 80) return ['#28a745', '#d4edda'];
+                if (health >= 60) return ['#ffc107', '#fff3cd'];
+                if (health >= 40) return ['#fd7e14', '#fff3cd'];
+                if (health >= 20) return ['#dc3545', '#f8d7da'];
+                return ['#6c757d', '#e9ecef'];
+            }
+
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+
+            greenhouseData.forEach((greenhouse) => {
+                const health = Math.floor(Math.random() * 101);
+                const [borderColor, backgroundColor] = getHealthColor(health);
+                const updatedDate = new Date().toISOString();
+
+                const row = document.createElement('tr');
+                row.className = 'greenhouse-row';
+                row.innerHTML = `
+            <td class="cell">${greenhouse.name}</td>
+            <td class="cell">${greenhouse.crop_type}</td>
+            <td class="cell">
+                <div class="health-indicator" style="border: 2px solid ${borderColor}; background-color: ${backgroundColor}; color: ${borderColor};">
+                    ${health}%
+                </div>
+            </td>
+            <td class="cell">${health}%</td>
+            <td class="cell">${formatDate(updatedDate)}</td>
+            <td class="cell">
+                <button class="btn-sm toggle-redraw" data-greenhouse-id="${greenhouse.id}">
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </button>
+            </td>
+        `;
+                greenhouseRows.appendChild(row);
+
+                const redrawRow = document.createElement('tr');
+                redrawRow.className = 'redraw-row';
+                redrawRow.style.display = 'none';
+                redrawRow.innerHTML = `
+            <td colspan="5">
+                <div class="greenhouse-redraw-container">
+                    <div class="greenhouse-redraw" id="redraw-${greenhouse.id}"></div>
+                    <div class="greenhouse-info">
+                        <h6>Instructions:</h6>
+                        <p>Click on an area to simulate uploading a picture.</p>
+                        <p><small class="text-muted">Gray: No pictures | Green: Pictures uploaded</small></p>
+                    </div>
+                </div>
+                
+            </td>
+        `;
+                greenhouseRows.appendChild(redrawRow);
+            });
+
+            document.querySelectorAll('.toggle-redraw').forEach(button => {
+                button.addEventListener('click', function () {
+                    const greenhouseId = this.getAttribute('data-greenhouse-id');
+                    const redrawRow = this.closest('tr').nextElementSibling;
+                    const icon = this.querySelector('.arrow-icon');
+
+                    if (redrawRow.style.display === 'none') {
+                        redrawRow.style.display = 'table-row';
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                        redrawGreenhouse(greenhouseId);
+                    } else {
+                        redrawRow.style.display = 'none';
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                        this.closest('tr').classList.remove('selected');
+                    }
+                });
+            });
+
+            function redrawGreenhouse(greenhouseId) {
+                const greenhouse = greenhouseData.find(gh => gh.id.toString() === greenhouseId);
+                if (!greenhouse) return;
+
+                document.querySelectorAll('.greenhouse-row').forEach(row => {
+                    row.classList.remove('selected');
+                });
+
+                const currentRow = document.querySelector(`[data-greenhouse-id="${greenhouseId}"]`).closest('tr');
+                currentRow.classList.add('selected');
+
+                const redrawContainer = document.getElementById(`redraw-${greenhouseId}`);
+                const canvas = document.createElement('canvas');
+                const containerWidth = redrawContainer.offsetWidth;
+                const canvasSize = Math.min(containerWidth, 240); // Limit to 240px max
+                canvas.width = canvasSize;
+                canvas.height = canvasSize;
+                const ctx = canvas.getContext('2d');
+
+                const gridSize = 16;
+                const cellSize = canvasSize / gridSize;
+
+                // Draw grid
+                ctx.strokeStyle = 'rgba(200, 200, 200, 0.5)';
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= gridSize; i++) {
+                    const pos = i * cellSize;
+                    ctx.beginPath();
+                    ctx.moveTo(pos, 0);
+                    ctx.lineTo(pos, canvas.height);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(0, pos);
+                    ctx.lineTo(canvas.width, pos);
+                    ctx.stroke();
+                }
+
+                // Draw selections
+                greenhouse.data.forEach((selection, index) => {
+                    const left = Math.min(selection.start.x, selection.end.x) * cellSize;
+                    const top = Math.min(selection.start.y, selection.end.y) * cellSize;
+                    const width = (Math.abs(selection.end.x - selection.start.x) + 1) * cellSize;
+                    const height = (Math.abs(selection.end.y - selection.start.y) + 1) * cellSize;
+
+                    ctx.fillStyle = selection.hasImage ? 'rgba(40, 167, 69, 0.2)' : 'rgba(200, 200, 200, 0.2)';
+                    ctx.fillRect(left, top, width, height);
+                    ctx.strokeStyle = selection.hasImage ? '#28a745' : '#000000';
+                    ctx.strokeRect(left, top, width, height);
+
+                    ctx.fillStyle = '#000000';
+                    ctx.font = '12px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(`Area ${index + 1}`, left + width / 2, top + height / 2);
+                });
+
+                redrawContainer.innerHTML = '';
+                redrawContainer.appendChild(canvas);
+
+                canvas.addEventListener('click', (event) => {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+                    const gridX = Math.floor(x / cellSize);
+                    const gridY = Math.floor(y / cellSize);
+
+                    greenhouse.data.forEach((selection, index) => {
+                        if (gridX >= selection.start.x && gridX <= selection.end.x &&
+                            gridY >= selection.start.y && gridY <= selection.end.y) {
+
+                            // Create a file input element
+                            const fileInput = document.createElement('input');
+                            fileInput.type = 'file';
+                            fileInput.accept = 'image/*';
+                            fileInput.multiple = true;
+
+                            fileInput.addEventListener('change', function (e) {
+                                const files = e.target.files;
+                                if (files.length > 0) {
+                                    // Simulate a successful upload
+                                    console.log(`${files.length} file(s) selected for Area ${index + 1}`);
+
+                                    // Update the selection to indicate it has an image
+                                    selection.hasImage = true;
+
+                                    // Redraw the greenhouse to reflect the change
+                                    redrawGreenhouse(greenhouseId);
+                                }
+                            });
+
+                            fileInput.click();
+
+                        }
+                    });
+                });
+            };
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,3 +1,743 @@
 {%load static%}
-<h1>Testing</h1>
-<img src="{%static "image.png"%}"></img>
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GreenGuard</title>
+
+    <script>
+        document.documentElement.classList.remove('no-js');
+        document.documentElement.classList.add('js');
+    </script>
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="{% static 'css/vendor.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
+
+</head>
+
+
+<body id="top">
+
+
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+        <div id="loader">
+        </div>
+    </div>
+
+
+    <!-- page wrap
+    ================================================== -->
+    <div id="page" class="s-pagewrap">
+
+
+        <!-- # site header 
+        ================================================== -->
+        <header class="s-header">
+
+            <div class="row s-header__inner">
+
+                <div class="s-header__block">
+                    <div class="s-header__logo">
+                        <a class="logo" href="index.html">
+                            <img src="{%static 'images/logo.svg'%}" alt="Homepage">
+                        </a>
+                    </div>
+
+                    <a class="s-header__menu-toggle" href="#0"><span>Menu</span></a>
+                </div> <!-- end s-header__block -->
+
+                <nav class="s-header__nav">
+                    <ul>
+                        <li class="current"><a href="#intro" class="smoothscroll">Home</a></li>
+                        <li><a href="#about" class="smoothscroll">Features</a></li>
+                        <li><a href="#pricing" class="smoothscroll">Pricing</a></li>
+                        <li><a href="#download" class="smoothscroll">Get Started</a></li>
+                    </ul>
+                </nav>
+
+                <div class="s-header__cta">
+                    <a href="{% url 'login' %}" class="btn btn--stroke s-header__cta-btn">Try GreenGuard</a>
+                </div>
+
+            </div> <!-- end s-header__inner -->
+
+        </header> <!-- end s-header -->
+
+
+        <!-- # site-content
+        ================================================== -->
+        <section id="content" class="s-content">
+
+
+            <!-- intro
+            ----------------------------------------------- -->
+            <section id="intro" class="s-intro target-section">
+
+                <div class="s-intro__bg"></div>
+
+                <div class="row s-intro__content">
+
+                    <div class="column lg-12 s-intro__content-inner">
+                        <div class="s-intro__content-left">
+                            <h1 class="s-intro__content-title">
+                                Safeguarding Your <br>
+                                Greenhouse Health
+                            </h1>
+                        </div>
+                        <div class="s-intro__content-right">
+                            <p class="s-intro__content-desc body-text-2">
+                                Prevent crop loss with AI-powered disease detection.
+                                Manage your crops'health from your phone
+                            </p>
+
+                            <div class="s-intro__content-buttons">
+                                <a href="{% url 'login' %}" class="btn btn--primary s-intro__content-btn">Start
+                                    Monitoring</a>
+                                <a href="https://player.vimeo.com/video/14592941?color=00a650&title=0&byline=0&portrait=0"
+                                    class="s-intro__content-video-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                                        <path d="M7 6v12l10-6z"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div> <!-- s-intro__content-inner -->
+
+                </div> <!-- s-intro__content -->
+
+                <ul class="s-intro__social">
+                    <li>
+                        <a href="">
+                            <svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M21.929,2.926a1,1,0,0,0-.851-.855c-.342-.05-8.4-1.114-13.744,4.232A9.092,9.092,0,0,0,5.385,17.2L2.333,20.253a1,1,0,0,0,1.415,1.414L6.8,18.615a9.825,9.825,0,0,0,4.261,1.014A9.194,9.194,0,0,0,17.7,16.666a13.853,13.853,0,0,0,2.985-4.523,1,1,0,0,0-.216-1.091L18.414,9H20.8a1,1,0,0,0,.988-.844A19.743,19.743,0,0,0,21.929,2.926ZM19.921,7H16a1,1,0,0,0-.707,1.707l3.273,3.273a11.683,11.683,0,0,1-2.283,3.272A7.064,7.064,0,0,1,8.3,17.114l4.4-4.4A1,1,0,1,0,11.282,11.3l-4.4,4.4A7.064,7.064,0,0,1,8.748,7.717c3.733-3.733,9.233-3.84,11.263-3.73A18.954,18.954,0,0,1,19.921,7Z">
+                                    </path>
+                                </g>
+                            </svg>
+                            <span class="u-screen-reader-text">Facebook</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M8.99999 14C8.99999 13.4477 8.55227 13 7.99999 13C7.4477 13 6.99999 13.4477 6.99999 14C6.99999 15.3574 7.26721 16.7375 8.08236 17.7972C8.93437 18.9048 10.2571 19.5 12 19.5C12.5523 19.5 13 19.0523 13 18.5C13 17.9477 12.5523 17.5 12 17.5C10.7429 17.5 10.0656 17.0952 9.66761 16.5778C9.23276 16.0125 8.99999 15.1426 8.99999 14Z"
+                                        fill="#0F0F0F"></path>
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M13.4228 1.54267C12.6513 0.711988 11.348 0.712021 10.5766 1.54273C9.63287 2.55896 7.89116 4.5305 6.37916 6.77881C4.87045 9.02222 3.46953 11.5773 3.49416 14.3526C3.49633 14.5981 3.50939 14.9426 3.55218 15.3536C3.63717 16.17 3.84245 17.278 4.33361 18.4008C4.82693 19.5285 5.61868 20.6923 6.88173 21.5709C8.15052 22.4536 9.82552 23 11.9997 23C14.1739 23 15.8489 22.4536 17.1178 21.5709C18.3808 20.6923 19.1727 19.5286 19.6661 18.4009C20.1573 17.2781 20.3627 16.17 20.4477 15.3536C20.4905 14.9427 20.5036 14.5982 20.5058 14.3527C20.5306 11.5774 19.1293 9.02208 17.6206 6.77875C16.1084 4.53043 14.3666 2.55889 13.4228 1.54267ZM8.03877 7.89491C9.44577 5.80274 11.0797 3.94302 11.9997 2.94942C12.9198 3.94301 14.5539 5.80273 15.961 7.89491C17.2351 9.78932 18.5269 11.9805 18.5059 14.3348C18.5042 14.5268 18.4938 14.8074 18.4585 15.1464C18.3873 15.83 18.2176 16.722 17.8338 17.5992C17.4521 18.4715 16.8689 19.3078 15.9756 19.9291C15.0882 20.5465 13.8256 21 11.9997 21C10.1738 21 8.91129 20.5465 8.02387 19.9291C7.13071 19.3078 6.54754 18.4715 6.16596 17.5992C5.78221 16.722 5.61259 15.8301 5.54142 15.1465C5.50613 14.8074 5.49578 14.5269 5.49408 14.3349C5.4732 11.9806 6.76469 9.78944 8.03877 7.89491Z"
+                                        fill="#0F0F0F"></path>
+                                </g>
+                            </svg>
+                            <span class="u-screen-reader-text">Twitter</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M5.859,8.341a5.876,5.876,0,0,0,5.283.117A9,9,0,0,0,11,10v2H6a1,1,0,0,0-1,1v3a1,1,0,0,0,1,1H7v5a1,1,0,0,0,1,1h8a1,1,0,0,0,1-1V17h1a1,1,0,0,0,1-1V13a1,1,0,0,0-1-1H13V10a7.008,7.008,0,0,1,7-7,1,1,0,0,0,0-2,8.993,8.993,0,0,0-7.642,4.27C11.415,3.55,9.155,1,4,1A1,1,0,0,0,3,2C3,2.187,3.033,6.594,5.859,8.341ZM15,21H9V17h6Zm2-6H7V14H17ZM10.756,6.471c-1.635.677-2.924.736-3.841.172-1.154-.711-1.646-2.383-1.826-3.6C8.8,3.375,10.238,5.366,10.756,6.471Z">
+                                    </path>
+                                </g>
+                            </svg>
+                            <span class="u-screen-reader-text">Instagram</span>
+                        </a>
+                    </li>
+                </ul> <!-- s-intro__social -->
+
+                <div class="s-intro__scroll">
+                    <a href="#about" class="smoothscroll">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            style="fill: rgba(0, 0, 0, 1);transform: rotate(270deg);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);">
+                            <path
+                                d="M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z">
+                            </path>
+                        </svg>
+                        <span class="u-screen-reader-text">Scroll</span>
+                    </a>
+                </div> <!-- s-intro__scroll -->
+
+            </section> <!-- end s-intro -->
+
+
+            <!-- about
+            ----------------------------------------------- -->
+            <section id="about" class="s-about target-section">
+
+
+                <!-- stats -->
+                <div class="row block-lg-one-fourth block-tab-one-half block-stack s-about__stats">
+
+                    <div class="column s-about__stats-item">
+                        <div class="s-about__stats-count">554<span>k</span></div>
+                        <h5>Plants Monitored</h5>
+                    </div>
+                    <div class="column s-about__stats-item">
+                        <div class="s-about__stats-count">98<span>%</span></div>
+                        <h5>Detection Accuracy</h5>
+                    </div>
+                    <div class="column s-about__stats-item">
+                        <div class="s-about__stats-count">102<span>t</span></div>
+                        <h5>Food Saved</h5>
+                    </div>
+                    <div class="column s-about__stats-item">
+                        <div class="s-about__stats-count">500<span>+</span></div>
+                        <h5>Happy Growers</h5>
+                    </div>
+
+                </div> <!-- end stats -->
+
+
+                <!-- intro info -->
+                <div class="s-about__info">
+
+                    <div class="row section-header" data-num="01">
+                        <div class="column lg-6 stack-on-1000 title-block">
+                            <h2 class="title text-display-1">Getting Started With GreenGuard.</h2>
+                        </div>
+                        <div class="column lg-6 stack-on-1000 desc-block">
+                            <p class="desc lead">
+                                GreenGuard revolutionizes greenhouse management with advanced monitoring technology.
+                                Our system provides real-time insights into plant health and early detection of
+                                potential diseases.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row s-about__info-slider-block">
+                        <div class="column lg-12">
+
+                            <div class="swiper-container s-about__info-slider">
+                                <div class="swiper-wrapper">
+
+                                    <div class="s-about__info-slide swiper-slide">
+                                        <h4 class="h5">Intelligent.</h4>
+
+                                        <p>
+                                            Advanced deep learning model optimized with Intel's OpenVINO™ toolkit.
+                                            Provides real-time, critical analysis of plant vitality, ensuring you
+                                            receive precise and actionable insights on your greenhouse vegetation
+                                            condition.
+                                        </p>
+                                    </div> <!-- end s-about__info-slide  -->
+
+                                    <div class="s-about__info-slide swiper-slide">
+                                        <h4 class="h5">User-Friendly.</h4>
+
+                                        <p>
+                                            Our intuitive dashboard presents complex data in an easy-to-understand
+                                            format.
+                                            Get a quick overview of your greenhouse's health or dive deep into detailed
+                                            analytics
+                                            with just a few clicks. Customizable alerts keep you informed without
+                                            overwhelming you.
+                                        </p>
+                                    </div> <!-- end s-about__info-slide  -->
+
+                                    <div class="s-about__info-slide swiper-slide">
+                                        <h4 class="h5">Customizable.</h4>
+
+                                        <p>
+                                            Tailor GreenGuard to your unique greenhouse: Customize for various crop
+                                            types, growth stages,
+                                            and facility sizes. From detection sensitivity to reporting preferences, our
+                                            advanced app
+                                            adapts to your specific needs, ensuring precise disease detection and plant
+                                            health monitoring.
+                                        </p>
+                                    </div> <!-- end s-about__info-slide  -->
+
+                                    <div class="s-about__info-slide swiper-slide">
+                                        <h4 class="h5">Secure.</h4>
+
+                                        <p>
+                                            Your data's security is our priority. GreenGuard uses state-of-the-art
+                                            encryption and
+                                            follows best practices in data protection. Access controls ensure that your
+                                            sensitive
+                                            greenhouse data remains private and secure at all times.
+                                        </p>
+                                    </div> <!-- end s-about__info-slide  -->
+
+                                </div> <!-- swiper-wrapper -->
+
+                                <div class="swiper-pagination"></div>
+
+                            </div> <!-- end swiper-container -->
+
+                        </div>
+                    </div> <!-- end s-about__info-slider-block -->
+
+                </div> <!-- end s-about__info -->
+
+
+                <!-- screens -->
+                <div class="row s-about__screens-block">
+                    <div class="column lg-12">
+
+                        <div class="s-about__screens">
+                            <div class="s-about__screen">
+                                <img src="{% static 'images/screens/screen-03.png' %}"
+                                    srcset="{% static 'images/screens/screen-03.png' %} 1x, {% static 'images/screens/screen-03@2x.png' %} 2x"
+                                    alt="">
+                            </div>
+                            <div class="s-about__screen">
+                                <img src="{% static 'images/screens/screen-02.png' %}"
+                                    srcset="{% static 'images/screens/screen-02.png' %} 1x, {% static 'images/screens/screen-02@2x.png' %} 2x"
+                                    alt="">
+                            </div>
+                            <div class="s-about__screen">
+                                <img src="{% static 'images/screens/screen-01.png' %}"
+                                    srcset="{% static 'images/screens/screen-01.png' %} 1x, {% static 'images/screens/screen-01@2x.png' %} 2x"
+                                    alt="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div> <!-- end screens -->
+
+
+                <!-- how-to -->
+                <div class="s-about__howto">
+
+                    <div class="row section-header" data-num="02">
+                        <div class="column lg-12 title-block">
+                            <h2 class="title text-display-1">How GreenGuard Works.</h2>
+                        </div>
+                    </div>
+
+                    <div class="row s-about__howto-content">
+
+                        <div class="column s-about__howto-process-block">
+
+                            <div class="s-about__howto-process">
+                                <div class="s-about__howto-process-step">
+                                    <h3 class="h5">Create Your Greenhouse</h3>
+                                    <p>
+                                        Create a digital twin of your greenhouse in the app: Input your facility's
+                                        layout, dimensions,
+                                        and crop arrangement.
+                                    </p>
+                                </div>
+                                <div class="s-about__howto-process-step">
+                                    <h3 class="h5">Submit Greenhouse Pictures</h3>
+                                    <p>
+                                        Bring your plants into focus: Simply snap and share images of your crops with
+                                        GreenGuard.
+                                    </p>
+                                </div>
+                                <div class="s-about__howto-process-step">
+                                    <h3 class="h5">Data Analysis</h3>
+                                    <p>
+                                        GreenGuard's AI analyzes your crop photos, detecting subtle signs of stress or
+                                        disease and
+                                        providing practical recommendations for your greenhouse's health.
+                                    </p>
+                                </div>
+                                <div class="s-about__howto-process-step">
+                                    <h3 class="h5">Optimize</h3>
+                                    <p>
+                                        Apply GreenGuard's customized recommendations to optimize your greenhouse
+                                        management. Adjust
+                                        care routines, environmental controls, and treatments based on data-driven
+                                        insights to enhance
+                                        crop health and production.
+                                    </p>
+                                </div>
+                            </div> <!-- end how-to process -->
+
+                        </div>
+
+                        <div class="column s-about__howto-screens-block">
+
+                            <div class="s-about__howto-screens">
+                                <img src="{% static 'images/screens/screen-01.png' %}"
+                                    srcset="{% static 'images/screens/screen-01.png' %} 1x, {% static 'images/screens/screen-01@2x.png' %} 2x"
+                                    alt="">
+                                <img src="{% static 'images/screens/screen-04.png' %}"
+                                    srcset="{% static 'images/screens/screen-04.png' %} 1x, {% static 'images/screens/screen-04@2x.png' %} 2x"
+                                    alt="">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div> <!-- end how-to -->
+
+
+                <!-- features -->
+                <div class="s-about__features">
+
+                    <div class="row section-header" data-num="03">
+                        <div class="column lg-6 stack-on-1000 title-block">
+                            <h2 class="title text-display-1">Key Features of GreenGuard.</h2>
+                        </div>
+                        <div class="column lg-6 stack-on-1000 desc-block">
+                            <p class="desc lead">
+                                GreenGuard offers a comprehensive suite of features designed to revolutionize
+                                greenhouse management. From advanced monitoring to predictive analytics,
+                                we provide the tools you need for optimal plant health and productivity.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row s-about__feature-list block-lg-one-third">
+
+                        <div class="column s-about__feature-item">
+                            <div class="s-about__feature-icon-block">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                                    <path
+                                        d="M18.944 11.112C18.507 7.67 15.56 5 12 5 9.244 5 6.85 6.611 5.757 9.15 3.609 9.792 2 11.82 2 14c0 2.757 2.243 5 5 5h11c2.206 0 4-1.794 4-4a4.01 4.01 0 0 0-3.056-3.888zM18 17H7c-1.654 0-3-1.346-3-3 0-1.404 1.199-2.756 2.673-3.015l.581-.102.192-.558C8.149 8.274 9.895 7 12 7c2.757 0 5 2.243 5 5v1h1c1.103 0 2 .897 2 2s-.897 2-2 2z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="s-about__feature-text">
+                                <h3 class="h5">Cloud-Based Monitoring</h3>
+                                <p>Access your greenhouse data anytime, anywhere. Our cloud-based system ensures
+                                    real-time updates and secure storage of your valuable information.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="column s-about__feature-item">
+                            <div class="s-about__feature-icon-block">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                                    <path
+                                        d="M18 7c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v10c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-3.333L22 17V7l-4 3.333V7zm-1.998 10H4V7h12l.001 4.999L16 12l.001.001.001 4.999z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="s-about__feature-text">
+                                <h3 class="h5">Predictive Analytics</h3>
+                                <p>GreenGuard's machine learning models are trained on thousands of both healthy and
+                                    infected plant
+                                    images, guaranteeing highly accurate health assessments.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="column s-about__feature-item">
+                            <div class="s-about__feature-icon-block">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                                    <path
+                                        d="M20.995 6.9a.998.998 0 0 0-.548-.795l-8-4a1 1 0 0 0-.895 0l-8 4a1.002 1.002 0 0 0-.547.795c-.011.107-.961 10.767 8.589 15.014a.987.987 0 0 0 .812 0c9.55-4.247 8.6-14.906 8.589-15.014zM12 19.897C5.231 16.625 4.911 9.642 4.966 7.635L12 4.118l7.029 3.515c.037 1.989-.328 9.018-7.029 12.264z">
+                                    </path>
+                                    <path d="m11 12.586-2.293-2.293-1.414 1.414L11 15.414l5.707-5.707-1.414-1.414z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="s-about__feature-text">
+                                <h3 class="h5">Bacterial Threat Detection</h3>
+                                <p>Our AI algorithms detect potential bacterial
+                                    threats. Receive early warnings and targeted treatment
+                                    recommendations to protect your crops and maintain optimal plant health.
+                                </p>
+                            </div>
+                        </div>
+
+
+                    </div> <!-- end features-list -->
+
+                </div> <!-- end features -->
+
+            </section> <!-- end s-about -->
+
+
+            <!-- testimonials
+            ----------------------------------------------- -->
+            <section id="testimonials" class="s-testimonials">
+
+                <div class="row narrow text-center s-testimonials__header">
+                    <div class="column lg-12">
+                        <h3 class="h2">Our Team:</h3>
+                    </div>
+                </div>
+
+                <div class="row s-testimonials__content">
+                    <div class="column lg-12">
+
+                        <div class="swiper-container s-testimonials__slider">
+
+                            <div class="swiper-wrapper">
+
+                                <div class="s-testimonials__slide swiper-slide">
+                                    <div class="s-testimonials__author">
+                                        <img src="{% static 'images/avatars/nicolas.jpg' %}" alt="Author image"
+                                            class="s-testimonials__avatar">
+                                        <cite class="s-testimonials__cite">
+                                            <strong>Nicolás Donati</strong>
+                                            <span>Back-End Developer, Project Manager</span>
+
+                                    </div>
+                                    <p>
+                                        Nicolás Donati is the architect behind the app's core functionality. He designs
+                                        and maintains
+                                        the robust server-side systems that drive GreenGuard's intelligent plant
+                                        analysis.
+                                    </p>
+                                </div> <!-- end s-testimonials__slide -->
+
+                                <div class="s-testimonials__slide swiper-slide">
+                                    <div class="s-testimonials__author">
+                                        <img src="{% static 'images/avatars/andre' %}" alt="Author image"
+                                            class="s-testimonials__avatar">
+                                        <cite class="s-testimonials__cite">
+                                            <strong>André Robles</strong>
+                                            <span>Machine Learning Engineer</span>
+
+                                    </div>
+                                    <p>
+                                        André Robles trains deep learning models on vast datasets to develop and
+                                        fine-tune the sophisticated algorithms
+                                        that power GreenGuard's accurate disease detection.
+                                    </p>
+                                </div> <!-- end s-testimonials__slide -->
+
+                                <div class="s-testimonials__slide swiper-slide">
+                                    <div class="s-testimonials__author">
+                                        <img src="{% static 'images/avatars/pedro.jpg' %}" alt="Author image"
+                                            class="s-testimonials__avatar">
+                                        <cite class="s-testimonials__cite">
+                                            <strong>Pedro Nieto</strong>
+                                            <span>Cloud Engineer</span>
+
+                                    </div>
+                                    <p>
+                                        Pedro Nieto balances scalability, security, and performance, ensuring GreenGuard
+                                        can handle surging
+                                        user numbers and growing data volumes seamlessly.
+                                    </p>
+                                </div> <!-- end s-testimonials__slide -->
+
+                                <div class="s-testimonials__slide swiper-slide">
+                                    <div class="s-testimonials__author">
+                                        <img src="{% static 'images/avatars/patricio.jpg' %}" alt="Author image"
+                                            class="s-testimonials__avatar">
+                                        <cite class="s-testimonials__cite">
+                                            <strong>Patricio Lugo</strong>
+                                            <span>Front-End Developer</span>
+
+                                    </div>
+                                    <p>
+                                        Patricio Lugo brings the app's powerful capabilities to life through an
+                                        intuitive and engaging user interface.
+                                        He translates complex plant health data into visually appealing dashboards
+                                        enabling greenhouse managers to
+                                        make informed decisions.
+                                    </p>
+                                </div> <!-- end s-testimonials__slide -->
+
+                            </div> <!-- end swiper-wrapper -->
+
+                            <div class="swiper-pagination"></div>
+
+                        </div> <!-- end swiper-container -->
+
+                    </div> <!-- end column -->
+                </div> <!-- end s-testimonials__content -->
+
+            </section> <!-- end testimonials -->
+
+
+            <!-- pricing
+            ----------------------------------------------- -->
+            <section id="pricing" class="s-pricing target-section">
+                <div class="row s-pricing__content">
+
+                    <div class="column lg-4 md-12 s-pricing__header">
+                        <h3 class="h2">CERTIFICATES.</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Urna, sit pretium, proin sed massa maecenas tempus, nibh.
+                            Ultrices pellentesque amet tristique feugiat condimentum integer fames.
+                        </p>
+                    </div> <!-- end s-pricing__header -->
+
+                    <div class="column lg-8 md-12 s-pricing__plans">
+                        <div class="row plans block-lg-one-half block-tab-whole">
+
+                            <div class="column item-plan item-plan--popular">
+                                <div class="item-plan__block">
+
+                                    <div class="item-plan__top-part">
+                                        <h3 class="item-plan__title">LOREM</h3>
+                                        <p class="item-plan__price"><sup>$</sup>15</p>
+                                        <p class="item-plan__per">LOREM</p>
+                                    </div>
+
+                                    <div class="item-plan__bottom-part">
+                                        <ul class="item-plan__features">
+                                            <li><span>5000GB</span> Storage</li>
+                                            <li><span>Unlimited</span> Bandwidth</li>
+                                            <li><span>100</span> Email Accounts</li>
+                                            <li>Backup & Restore</li>
+                                        </ul>
+
+                                        <a class="btn btn--primary u-fullwidth" href="#0">Get Started</a>
+                                    </div>
+
+                                </div>
+                            </div> <!-- end item-plan -->
+                            <div class="column item-plan">
+                                <div class="item-plan__block">
+
+                                    <div class="item-plan__top-part">
+                                        <h3 class="item-plan__title">LOREM</h3>
+                                        <p class="item-plan__price"><sup>$</sup>0</p>
+                                        <p class="item-plan__per">LOREM</p>
+                                    </div>
+
+                                    <div class="item-plan__bottom-part">
+                                        <ul class="item-plan__features">
+                                            <li><span>50GB</span> Storage</li>
+                                            <li><span>50GB</span> Bandwidth</li>
+                                            <li><span>30</span> Email Accounts</li>
+                                            <li>Backup & Restore</li>
+                                        </ul>
+
+                                        <a class="btn btn--primary u-fullwidth" href="#0">Get Started</a>
+                                    </div>
+
+                                </div>
+                            </div> <!-- end item-plan -->
+                        </div>
+                    </div> <!-- end s-pricing__plans -->
+
+                </div> <!-- end s-pricing__content -->
+            </section> <!-- end pricing -->
+
+
+            <!-- download
+            ----------------------------------------------- -->
+            <section id="download" class="s-download target-section">
+                <div class="row s-download__header">
+                    <div class="column lg-12">
+                        <h2 class="text-display-1">Thousands of Growers Are Now Using GreenGuard. Join Our Community!
+                        </h2>
+                        <p class="lead">
+                            ...
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+
+        </section> <!-- end s-content -->
+
+
+        <!-- # site-footer
+        ================================================== -->
+        <footer id="colophon" class="s-footer footer">
+
+            <div class="row s-footer__top">
+                <div class="column lg-12 text-center">
+                    <h2 class="text-display-1">
+                        Sign Up to Our Newsletter.
+                    </h2>
+                    <p class="lead">
+                        LOREM LOREM LOREM
+                    </p>
+                </div>
+                <div class="column lg-12 s-footer__subscribe">
+                    <div class="subscribe-form">
+                        <form id="mc-form" class="mc-form">
+                            <input type="email" name="EMAIL" id="mce-EMAIL" class="u-fullwidth text-center"
+                                placeholder="Your Email Address"
+                                title="The domain portion of the email address is invalid (the portion after the @)."
+                                pattern="^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*(\.\w{2,})+$"
+                                required>
+                            <input type="submit" name="subscribe" value="Subscribe"
+                                class="btn btn--primary u-fullwidth">
+                            <!-- <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_cdb7b577e41181934ed6a6a44_9a91cfe7b3" tabindex="-1" value=""></div> -->
+                            <div class="mc-status"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row s-footer__bottom">
+                <div class="column lg-5 md-6 stack-on-900">
+                    <div class="footer__logo">
+                        <a href="index.html">
+                            <img src="{% static 'images/logo.svg' %}" alt="Homepage">
+                        </a>
+                    </div>
+
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                        do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris nisi ut.
+                    </p>
+
+                                    </div>
+
+                <div class="column lg-6 stack-on-900 end">
+                    <ul class="s-footer__site-links">
+                        <li><a class="smoothscroll" href="#home" title="intro">Intro</a></li>
+                        <li><a class="smoothscroll" href="#about" title="about">About</a></li>
+                        <li><a class="smoothscroll" href="#testimonials" title="reviews">Our Team</a></li>
+                        <li><a class="smoothscroll" href="#pricing" title="pricing">Pricing</a></li>
+                        <li><a class="smoothscroll" href="#download" title="download">Download</a></li>
+                    </ul>
+
+                    <p class="s-footer__contact">
+                        Do you have a question? Send us a word: <br>
+                        <a href="mailto:#0" class="s-footer__mail-link">ayuda@greenguard.com.mx</a>
+                    </p>
+
+                    <div class="ss-copyright">
+                        <span>© GreenGuard 2024</span>
+                        <span><small class="copyright">Crafted with passion for growers by <a class="app-link" href="{% url 'home' %}" target="_blank">GreenGuard</a><span class="sr-only"></span> <i class="fas fa-leaf" style="color: #327230;"></i></small></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="ss-go-top">
+                <a class="smoothscroll" title="Back to Top" href="#top">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                        <path d="M6 4h12v2H6zm5 10v6h2v-6h5l-6-6-6 6z"></path>
+                    </svg>
+                </a>
+            </div> <!-- end ss-go-top -->
+
+        </footer> <!-- end footer -->
+
+
+        <!-- Java Script
+    ================================================== -->
+        <script src="{% static 'js/plugins.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>
