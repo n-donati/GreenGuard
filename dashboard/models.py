@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class Image(models.Model): 
   path = models.CharField(max_length=200, null=False, default='')
   uploaded = models.DateTimeField(auto_now=True)
-  user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+  user = models.ForeignKey(User, on_delete=models.CASCADE, null=True )
 
 class Greenhouse(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
