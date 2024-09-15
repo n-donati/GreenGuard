@@ -4720,3 +4720,13 @@ img.u-pull-left {
         width  : var(--vspace-1_5);
     }
 }
+
+.item-plan__icon {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 200px;
+    object-fit: contain;
+    z-index: 1;
+    transform: translate(50%, -50%);
+}
