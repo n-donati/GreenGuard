@@ -74,15 +74,13 @@ def upload_images(request):
     open_image = PILImage.open(BytesIO(response.content))
     preprocessed_image = preprocess_image(open_image)
     # TODO remove ip address
-    client = make_grpc_client('34.123.59.235:9000')
     inputs = {'keras_tensor': preprocessed_image}
     # TODO connect with external variable
     # TODO hide IP address
-    crop_type = 'rice'
     if crop_type == 'cucumber': 
       model_name = 'cucumber_model'
       client = make_grpc_client('34.123.59.235:7000')
-      bins = []
+      bins = ['Anthracnose', 'Bacterial Wilt', 'Downy Mildew', 'Fresh Leaf', 'Gummy Stem Blight']
     elif crop_type == 'rice':
       client = make_grpc_client('34.123.59.235:9000')
       model_name = 'rice_model'
@@ -90,7 +88,7 @@ def upload_images(request):
     elif crop_type == 'tomato':
       client = make_grpc_client('34.123.59.235:8000')
       model_name = 'tomato_model'
-      bins = []
+      bins = ['Bacterial Spot', 'Early Blight', 'Healthy Tomato Leaf', 'Late Blight', 'Leaf Mold', 'Septoria Leaf Spot', 'Spider Mites', 'Target Spot', 'Tomato Mosaic Virus', 'Yellow Leaf Curl Virus']
     model_version = 0
     response = client.predict(inputs, model_name, model_version)
     output = response
