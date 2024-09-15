@@ -69,11 +69,11 @@
                                     role="button" aria-expanded="false"><img src="{% static 'assets/images/user.png' %}"
                                         alt="user profile"></a>
                                 <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
-                                    <li><a class="dropdown-item" href="">Settings</a></li>
+                                    <li><a class="dropdown-item" href="">Ajustes</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a></li>
                                 </ul>
                             </div><!--//app-user-dropdown-->
                         </div><!--//app-utilities-->
@@ -105,7 +105,7 @@
                                             d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
                                     </svg>
                                 </span>
-                                <span class="nav-link-text">Overview</span>
+                                <span class="nav-link-text">Tablero</span>
                             </a><!--//nav-link-->
                         </li><!--//nav-item-->
                         <li class="nav-item">
@@ -122,7 +122,7 @@
                                         <circle cx="3.5" cy="10.5" r=".5" />
                                     </svg>
                                 </span>
-                                <span class="nav-link-text">Monitoring</span>
+                                <span class="nav-link-text">Monitoreo</span>
                             </a><!--//nav-link-->
                         </li><!--//nav-item-->
                         <li class="nav-item">
@@ -134,7 +134,7 @@
                                             d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
                                     </svg>
                                 </span>
-                                <span class="nav-link-text">Greenhouses</span>
+                                <span class="nav-link-text">Invernaderos</span>
                             </a><!--//nav-link-->
                         </li><!--//nav-item-->
                         <li class="nav-item"></li>
@@ -159,7 +159,7 @@
     <div class="app-wrapper">
         <div class="app-content pt-3 p-md-3 p-lg-4">
             <div class="container-xl">
-                <h1 class="app-page-title">Monitoring</h1>
+                <h1 class="app-page-title">Monitoreo</h1>
 
                 <div class="app-card app-card-orders-table shadow-sm mb-5">
                     <div class="app-card-body">
@@ -167,11 +167,11 @@
                             <table class="table app-table-hover mb-0 text-left">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Crop</th>
-                                        <th>Status</th>
-                                        <th>Overall Health</th>
-                                        <th>Updated</th>
+                                        <th>Nombre</th>
+                                        <th>Cultivo</th>
+                                        <th>Estado</th>
+                                        <th>Salud General</th>
+                                        <th>Actualizado</th>
                                         <th>Monitor</th>
                                     </tr>
                                 </thead>
@@ -188,7 +188,7 @@
 
         <footer class="app-footer">
             <div class="container text-center py-3">
-                <small class="copyright">Crafted with passion for growers by <a class="app-link" href="{% url 'home' %}"
+                <small class="copyright">Elaborado con pasión para productores por <a class="app-link" href="{% url 'home' %}"
                         target="_blank">GreenGuard</a><span class="sr-only"></span> <i class="fas fa-leaf"
                         style="color: #327230;"></i></small>
             </div>
