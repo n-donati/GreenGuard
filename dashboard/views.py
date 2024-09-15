@@ -19,21 +19,16 @@ def dashboard(request):
     
     return render(request, "dashboard.html", {'user': user})
 
-from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods
-from .models import Greenhouse
-import json
-
 @login_required
 def greenhouses(request):
     if request.method == "POST":
         selections = json.loads(request.POST.get('selections', '[]'))
+        crop_type = request.POST.get('type', '')
         greenhouse = Greenhouse(
             user=request.user,
             name=f"Greenhouse {Greenhouse.objects.filter(user=request.user).count() + 1}",
-            data=selections
+            data=selections,
+            crop_type=crop_type
         )
         greenhouse.save()
         return JsonResponse({"success": True})
@@ -75,6 +70,7 @@ def monitoring(request):
         'greenhouses': json.dumps([{
             'id': gh.id,
             'name': gh.name,
+            'crop_type': gh.crop_type,
             'data': gh.data
         } for gh in greenhouses])
     }
@@ -132,3 +128,4 @@ def get_greenhouse_data(request):
     greenhouse_id = request.GET.get('greenhouse_id')
     greenhouse = Greenhouse.objects.get(id=greenhouse_id)
     return JsonResponse({'data': greenhouse.data})
+

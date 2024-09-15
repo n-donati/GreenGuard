@@ -155,6 +155,7 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
+                                        <th>Crop</th>
                                         <th>Status</th>
                                         <th>Overall Health</th>
                                         <th>Updated</th>
@@ -315,6 +316,7 @@
                 row.className = 'greenhouse-row';
                 row.innerHTML = `
             <td class="cell">${greenhouse.name}</td>
+            <td class="cell">${greenhouse.crop_type}</td>
             <td class="cell">
                 <div class="health-indicator" style="border: 2px solid ${borderColor}; background-color: ${backgroundColor}; color: ${borderColor};">
                     ${health}%
@@ -343,6 +345,7 @@
                         <p><small class="text-muted">Gray: No pictures | Green: Pictures uploaded</small></p>
                     </div>
                 </div>
+                
             </td>
         `;
                 greenhouseRows.appendChild(redrawRow);
@@ -437,13 +440,35 @@
                     greenhouse.data.forEach((selection, index) => {
                         if (gridX >= selection.start.x && gridX <= selection.end.x &&
                             gridY >= selection.start.y && gridY <= selection.end.y) {
-                            selection.hasImage = true;
-                            redrawGreenhouse(greenhouseId);
+
+                            // Create a file input element
+                            const fileInput = document.createElement('input');
+                            fileInput.type = 'file';
+                            fileInput.accept = 'image/*';
+                            fileInput.multiple = true;
+
+                            fileInput.addEventListener('change', function (e) {
+                                const files = e.target.files;
+                                if (files.length > 0) {
+                                    // Simulate a successful upload
+                                    console.log(`${files.length} file(s) selected for Area ${index + 1}`);
+
+                                    // Update the selection to indicate it has an image
+                                    selection.hasImage = true;
+
+                                    // Redraw the greenhouse to reflect the change
+                                    redrawGreenhouse(greenhouseId);
+                                }
+                            });
+
+                            fileInput.click();
+
                         }
                     });
                 });
-            }
+            };
         });
+
     </script>
 </body>
 

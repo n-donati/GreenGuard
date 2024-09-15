@@ -134,9 +134,11 @@
                             <div class="mt-3">
                                 <button id="undo-btn" class="btn app-btn-secondary" disabled>Undo Last
                                     Rectangle</button>
-                                <button id="continue-btn" class="btn app-btn-primary ml-2">Continue</button>
-                                <button id="cancel-btn" class="btn app-btn-secondary ml-2"
-                                    style="display: none;">Cancel</button>
+                                <select class="btn app-btn-primary" id="select-type">
+                                    <option value="tomato">Tomato</option>
+                                    <option value="cucumber">Cucumber</option>
+                                    <option value="rice">Rice</option>
+                                </select>
                             </div>
                             <form id="area-form" class="mt-3" method="post">
                                 <div id="coordinates-container"></div>
@@ -219,8 +221,6 @@
             document.addEventListener('DOMContentLoaded', function () {
                 const drawingArea = document.getElementById('drawing-area');
                 const undoBtn = document.getElementById('undo-btn');
-                const continueBtn = document.getElementById('continue-btn');
-                const cancelBtn = document.getElementById('cancel-btn');
                 const selectionInfoContainer = document.getElementById('coordinates-container');
                 const areaForm = document.getElementById('area-form');
                 const totalGreenhousesElement = document.querySelector('.stats-figure');
@@ -248,8 +248,6 @@
                 drawingArea.addEventListener('mousemove', draw);
                 drawingArea.addEventListener('mouseup', endDrawing);
                 undoBtn.addEventListener('click', undoLastSelection);
-                continueBtn.addEventListener('click', finishSelection);
-                cancelBtn.addEventListener('click', cancelSelection);
                 areaForm.addEventListener('submit', handleSubmit);
 
                 initializeGrid();
@@ -366,16 +364,13 @@
                 }
 
                 function finishSelection() {
-                    continueBtn.style.display = 'none';
-                    cancelBtn.style.display = 'inline';
+
                     undoBtn.disabled = true;
                     drawingArea.style.pointerEvents = 'none';
                     updateSelectionInfo();
                 }
 
                 function cancelSelection() {
-                    continueBtn.style.display = 'inline';
-                    cancelBtn.style.display = 'none';
                     undoBtn.disabled = selections.length === 0;
                     drawingArea.style.pointerEvents = 'auto';
                     selectionInfoContainer.innerHTML = '';
@@ -397,11 +392,15 @@
 
                 function handleSubmit(e) {
                     e.preventDefault();
+                    if (selections.length === 0) {
+                        showNotification('Please draw at least one area.', false);
+                        return;
+                    }
 
                     var formData = new FormData();
                     formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
                     formData.append('selections', JSON.stringify(selections));
-
+                    formData.append('type', document.getElementById('select-type').value);
                     fetch('', {
                         method: 'POST',
                         body: formData,
