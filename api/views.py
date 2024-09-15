@@ -65,6 +65,7 @@ def upload_images(request):
   greenhouse = get_object_or_404(Greenhouse, id=id, user=request.user)
   crop_type = greenhouse.crop_type
   predictions = dict()
+  predictions_list = []
   images = request.FILES.getlist('images')
   for image in images:
     path = save_unique_file(image)
@@ -102,6 +103,7 @@ def upload_images(request):
       
     tup = (predicted_class, confidence)
     print(tup)
+    predictions_list.append(predicted_class)
     count += 1
     if tup[0] not in predictions:
       predictions[tup[0]] = 1
@@ -121,4 +123,4 @@ def upload_images(request):
   else:
     obj = Tomato.objects.create(greenhouse=greenhouse, bacterial_spot=predictions.get('Bacterial Spot'), early_blight=predictions.get('Early Blight'), healthy=predictions.get('Healthy Tomato Leaf'), late_blight=predictions.get('Late Blight'), leaf_mold=predictions.get('Leaf Mold'), septoria_leaf_spot=predictions.get('Septoria Leaf Spot'), spider_mites=predictions.get('Spider Mites'), target_spot=predictions.get('Target Spot'), tomato_mosaic_virus=predictions.get('Tomato Mosaic Virus'), yellow_leaf_curl_virus=predictions.get('Yellow Leaf Curl Virus'))
   obj.save()
-  return Response({"success": True})
+  return Response({"success": True, "data": predictions_list})
