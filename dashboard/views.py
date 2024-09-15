@@ -95,6 +95,7 @@ from dashboard.frida import recommendation1
 
 # Create your views here.
 def dashboard(request):
+    request.session["user_id"] = request.user.id 
     if request.user.is_authenticated:
         user = request.user
     elif request.session.get('is_guest'):
@@ -107,9 +108,10 @@ def dashboard(request):
     return render(request, "dashboard.html", {'user': user})
 
 def get_recommendation(request):
-    # This view will be called asynchronously
-    # Extract necessary data from the database
-    recommendation = recommendation1(10, 90, "2022-01-01")
+    user_id = request.session["user_id"]
+    greenhouses = list(Greenhouse.objects.filter(user=User.objects.get(id=user_id)))
+
+    recommendation = recommendation1(len(greenhouses), 90, "2022-01-01")
     return JsonResponse({'recommendation': recommendation})
 
 @login_required
@@ -117,11 +119,13 @@ def greenhouses(request):
     if request.method == "POST":
         selections = json.loads(request.POST.get('selections', '[]'))
         crop_type = request.POST.get('type', '')
+        print(selections)
         greenhouse = Greenhouse(
             user=request.user,
             name=f"Greenhouse {Greenhouse.objects.filter(user=request.user).count() + 1}",
             data=selections,
-            crop_type=crop_type
+            crop_type=crop_type, 
+            total_square_units=sum((area['end']['x'] - area['start']['x'] + 1) * (area['end']['y'] - area['start']['y'] + 1) for area in selections)
         )
         greenhouse.save()
         return JsonResponse({"success": True})
@@ -130,7 +134,7 @@ def greenhouses(request):
     user_greenhouses = Greenhouse.objects.filter(user=request.user).order_by('-created_at')
     total_greenhouses = user_greenhouses.count()
     total_square_units = sum(sum((area['end']['x'] - area['start']['x'] + 1) * (area['end']['y'] - area['start']['y'] + 1) for area in greenhouse.data) for greenhouse in user_greenhouses)
-
+    
     context = {
         'total_greenhouses': total_greenhouses,
         'total_square_units': total_square_units,
@@ -160,6 +164,13 @@ def greenhouse_to_dict(gh):
     gh_dict = model_to_dict(gh, fields=['id', 'name', 'crop_type'])
     gh_dict['data'] = gh.data  # Assuming 'data' is a JSONField or similar
     gh_dict['green'] = gh.images.exists()  # Efficiently check if images exist
+    if gh.crop_type == "rice": 
+      info = gh.rice
+    elif gh.crop_type == "cucumber":
+      info = gh.cucumber
+    elif gh.crop_type == "tomato":
+      info = gh.tomato
+    print(info)
     return gh_dict
 
 @login_required

@@ -14,11 +14,12 @@ class Greenhouse(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     crop_type = models.CharField(max_length=100, default="")
+    total_square_units = models.FloatField(null=True)
     def __str__(self):
         return f"{self.name} - {self.user.username}"
 
 class Rice(models.Model):
-    greenhouse = models.ForeignKey(Greenhouse, on_delete=models.CASCADE)
+    greenhouse = models.ForeignKey(Greenhouse, on_delete=models.CASCADE, related_name="rice")
     bacterial_leaf_blight = models.FloatField(null=True)
     brown_spot = models.FloatField(null=True)
     healthy = models.FloatField(null=True)
@@ -30,7 +31,7 @@ class Rice(models.Model):
         return f"Rice - {self.greenhouse.name}"
   
 class Tomato(models.Model):
-    greenhouse = models.ForeignKey(Greenhouse, on_delete=models.CASCADE)
+    greenhouse = models.ForeignKey(Greenhouse, on_delete=models.CASCADE, related_name="tomato")
     bacterial_spot = models.FloatField(null=True)
     early_blight = models.FloatField(null=True)
     healthy = models.FloatField(null=True)
@@ -46,7 +47,7 @@ class Tomato(models.Model):
         return f"Tomato - {self.greenhouse.name}"
   
 class Cucumber(models.Model):
-    greenhouse = models.ForeignKey(Greenhouse, on_delete=models.CASCADE)
+    greenhouse = models.ForeignKey(Greenhouse, on_delete=models.CASCADE, related_name="cucumber")
     anthracnose = models.FloatField(null=True)
     bacterial_wilt = models.FloatField(null=True)
     downy_wildew = models.FloatField(null=True)

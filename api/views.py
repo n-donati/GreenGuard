@@ -113,12 +113,12 @@ def upload_images(request):
     predictions[key] = value / count
   
   if crop_type == 'cucumber':
-    Cucumber.objects.create(greenhouse=greenhouse, anthracnose=predictions.get('Anthracnose'), bacterial_wilt=predictions.get('Bacterial Wilt'), downy_mildew=predictions.get('Downy Mildew'), healthy=predictions.get('Healthy'), gummy_stem_blight=predictions.get('Gummy Stem Blight'))
+    obj = Cucumber.objects.create(greenhouse=greenhouse, anthracnose=predictions.get('Anthracnose'), bacterial_wilt=predictions.get('Bacterial Wilt'), downy_wildew=predictions.get('Downy Mildew'), healthy=predictions.get('Healthy'), gummy_stem_blight=predictions.get('Gummy Stem Blight'))
   
   elif crop_type == 'rice':
-    Rice.objects.create(greenhouse=greenhouse, bacterial_leaf_blight=predictions.get('Bacterial Leaf Blight'), brown_spot=predictions.get('Brown Spot'), healthy=predictions.get('Healthy Rice Leaf'), leaf_blast=predictions.get('Leaf Blast'), leaf_scald=predictions.get('Leaf Scald'), sheath_blight=predictions.get('Sheath Blight'))
+    obj =Rice.objects.create(greenhouse=greenhouse, bacterial_leaf_blight=predictions.get('Bacterial Leaf Blight'), brown_spot=predictions.get('Brown Spot'), healthy=predictions.get('Healthy Rice Leaf'), leaf_blast=predictions.get('Leaf Blast'), leaf_scald=predictions.get('Leaf Scald'), sheath_blight=predictions.get('Sheath Blight'))
   
   else:
-    Tomato.objects.create(greenhouse=greenhouse, bacterial_spot=predictions.get('Bacterial Spot'), early_blight=predictions.get('Early Blight'), healthy=predictions.get('Healthy Tomato Leaf'), late_blight=predictions.get('Late Blight'), leaf_mold=predictions.get('Leaf Mold'), septoria_leaf_spot=predictions.get('Septoria Leaf Spot'), spider_mites=predictions.get('Spider Mites'), target_spot=predictions.get('Target Spot'), tomato_mosaic_virus=predictions.get('Tomato Mosaic Virus'), yellow_leaf_curl_virus=predictions.get('Yellow Leaf Curl Virus'))
-    
+    obj = Tomato.objects.create(greenhouse=greenhouse, bacterial_spot=predictions.get('Bacterial Spot'), early_blight=predictions.get('Early Blight'), healthy=predictions.get('Healthy Tomato Leaf'), late_blight=predictions.get('Late Blight'), leaf_mold=predictions.get('Leaf Mold'), septoria_leaf_spot=predictions.get('Septoria Leaf Spot'), spider_mites=predictions.get('Spider Mites'), target_spot=predictions.get('Target Spot'), tomato_mosaic_virus=predictions.get('Tomato Mosaic Virus'), yellow_leaf_curl_virus=predictions.get('Yellow Leaf Curl Virus'))
+  obj.save()
   return Response({"success": True})
