@@ -113,7 +113,7 @@ var lineChartConfig = {
 var barChartConfig = {
     type: 'bar',
     data: {
-        labels: ['AA', 'BB', 'CC', 'DD', 'EE'],
+        labels: ['anthracnose', 'bacterial_wilt', 'downy_wildew', 'healthy', 'gummy_stem_blight'],
         datasets: [{
             label: 'Porcentaje de enfermedad',
             backgroundColor: [
